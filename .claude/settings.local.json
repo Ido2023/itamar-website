@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest ernst-law --typescript --tailwind --app --src-dir --import-alias \"@/*\" --eslint --use-npm)",
+      "Bash(npm install framer-motion react-icons @headlessui/react react-intersection-observer lucide-react embla-carousel-react react-hook-form @emailjs/browser react-lite-youtube-embed)",
+      "Bash(npx tailwindcss --help)",
+      "Bash(npx next build)",
+      "Bash(npm run dev)",
+      "Bash(npx vercel --version)",
+      "Bash(npx vercel build)",
+      "Bash(npx vercel whoami)",
+      "Bash(npx vercel --yes)",
+      "Bash(npm run build)"
+    ]
+  }
+}
