@@ -30,7 +30,6 @@ export default function TestimonialsCarousel() {
     return () => { emblaApi.off('select', onSelect) }
   }, [emblaApi])
 
-  // Auto-play
   useEffect(() => {
     if (!emblaApi) return
     const interval = setInterval(() => emblaApi.scrollNext(), 6000)
@@ -38,41 +37,44 @@ export default function TestimonialsCarousel() {
   }, [emblaApi])
 
   return (
-    <section className="py-20 md:py-28 relative" style={{ backgroundColor: 'var(--color-dark-950)' }}>
-      <div className="section-container">
+    <section className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--color-dark-950)' }}>
+      <div className="section-divider absolute top-0 left-0 right-0" />
+      <div className="grid-pattern" />
+
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none" style={{
+        background: 'radial-gradient(ellipse, rgba(198,169,80,0.03) 0%, transparent 70%)',
+        filter: 'blur(40px)',
+      }} />
+
+      <div className="section-container relative z-10">
         <SectionHeading title={t.testimonials.sectionTitle} subtitle={t.testimonials.sectionSubtitle} />
 
         <ScrollReveal>
           <div className="relative">
-            {/* Carousel */}
             <div ref={emblaRef} className="overflow-hidden">
               <div className="flex">
                 {TESTIMONIALS.map((testimonial, i) => (
                   <div
                     key={i}
-                    className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] px-3"
+                    className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] px-2.5"
                   >
                     <div className="premium-card h-full flex flex-col">
-                      {/* Quote icon */}
-                      <Quote size={28} className="mb-4" style={{ color: 'var(--color-primary-400)', opacity: 0.3 }} />
-
-                      {/* Text */}
-                      <p className="text-sm text-cream-200/70 leading-relaxed flex-1 mb-6">
+                      <Quote size={24} className="mb-4" style={{ color: 'var(--color-primary-400)', opacity: 0.2 }} />
+                      <p className="text-sm leading-relaxed flex-1 mb-6" style={{ color: 'rgba(250,248,240,0.55)' }}>
                         {lang === 'he' ? testimonial.textHe : testimonial.textEn}
                       </p>
-
-                      {/* Footer */}
-                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }} className="pt-4">
+                      <div className="pt-4" style={{ borderTop: '1px solid rgba(198,169,80,0.08)' }}>
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-bold text-cream-50 text-sm">
                               {lang === 'he' ? testimonial.nameHe : testimonial.nameEn}
                             </p>
-                            <p className="text-xs text-cream-200/40">{testimonial.date}</p>
+                            <p className="text-xs" style={{ color: 'rgba(250,248,240,0.3)' }}>{testimonial.date}</p>
                           </div>
                           <div className="flex gap-0.5">
                             {Array.from({ length: testimonial.rating }).map((_, j) => (
-                              <Star key={j} size={14} fill="var(--color-primary-400)" style={{ color: 'var(--color-primary-400)' }} />
+                              <Star key={j} size={12} fill="var(--color-primary-400)" style={{ color: 'var(--color-primary-400)' }} />
                             ))}
                           </div>
                         </div>
@@ -88,25 +90,27 @@ export default function TestimonialsCarousel() {
               onClick={scrollPrev}
               className="absolute top-1/2 -translate-y-1/2 -start-2 md:-start-5 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
               style={{
-                backgroundColor: 'rgba(26,26,46,0.9)',
-                border: '1px solid rgba(198,169,80,0.2)',
+                backgroundColor: 'rgba(8,8,15,0.9)',
+                border: '1px solid rgba(198,169,80,0.15)',
                 color: 'var(--color-primary-400)',
+                backdropFilter: 'blur(8px)',
               }}
               aria-label="Previous"
             >
-              {isRTL ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+              {isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
             <button
               onClick={scrollNext}
               className="absolute top-1/2 -translate-y-1/2 -end-2 md:-end-5 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
               style={{
-                backgroundColor: 'rgba(26,26,46,0.9)',
-                border: '1px solid rgba(198,169,80,0.2)',
+                backgroundColor: 'rgba(8,8,15,0.9)',
+                border: '1px solid rgba(198,169,80,0.15)',
                 color: 'var(--color-primary-400)',
+                backdropFilter: 'blur(8px)',
               }}
               aria-label="Next"
             >
-              {isRTL ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+              {isRTL ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
             </button>
           </div>
 
@@ -116,10 +120,11 @@ export default function TestimonialsCarousel() {
               <button
                 key={i}
                 onClick={() => emblaApi?.scrollTo(i)}
-                className="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer"
+                className="h-1.5 rounded-full transition-all duration-500 cursor-pointer"
                 style={{
-                  backgroundColor: i === selectedIndex ? 'var(--color-primary-400)' : 'rgba(198,169,80,0.2)',
-                  width: i === selectedIndex ? '1.5rem' : '0.5rem',
+                  backgroundColor: i === selectedIndex ? 'var(--color-primary-400)' : 'rgba(198,169,80,0.15)',
+                  width: i === selectedIndex ? '2rem' : '0.375rem',
+                  boxShadow: i === selectedIndex ? '0 0 10px rgba(198,169,80,0.3)' : 'none',
                 }}
                 aria-label={`Go to slide ${i + 1}`}
               />
@@ -127,6 +132,8 @@ export default function TestimonialsCarousel() {
           </div>
         </ScrollReveal>
       </div>
+
+      <div className="section-divider absolute bottom-0 left-0 right-0" />
     </section>
   )
 }

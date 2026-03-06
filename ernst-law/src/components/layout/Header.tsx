@@ -22,7 +22,6 @@ export default function Header() {
     setIsMobileOpen(false)
   }, [lang])
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMobileOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -40,44 +39,50 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'py-3 shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
-          : 'py-5'
-      }`}
-      style={{
-        backgroundColor: isScrolled ? 'rgba(15,15,26,0.95)' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-      }}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled ? 'py-2.5' : 'py-4'
+        }`}
+        style={{
+          backgroundColor: isScrolled ? 'rgba(8,8,15,0.85)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(20px) saturate(1.3)' : 'none',
+          borderBottom: isScrolled ? '1px solid rgba(198,169,80,0.08)' : '1px solid transparent',
+        }}
       >
         <div className="section-container">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-dark-900 font-bold text-xl transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(201,169,110,0.4)]"
-                   style={{ fontFamily: 'var(--font-frank)', background: 'linear-gradient(to bottom right, var(--color-primary-400), var(--color-primary-600))' }}>
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-lg transition-all duration-500 group-hover:shadow-[0_0_25px_rgba(198,169,80,0.4)]"
+                style={{
+                  fontFamily: 'var(--font-frank)',
+                  background: 'linear-gradient(135deg, var(--color-primary-400), var(--color-primary-600))',
+                  color: 'var(--color-dark-950)',
+                }}
+              >
                 א
               </div>
               <div className="hidden sm:block">
-                <p className="text-lg text-cream-50 leading-tight" style={{ fontFamily: 'var(--font-frank)' }}>
+                <p className="text-base text-cream-50 leading-tight font-semibold tracking-tight" style={{ fontFamily: 'var(--font-frank)' }}>
                   {isRTL ? 'עו"ד איתמר ארנסט' : 'Adv. Itamar Ernst'}
                 </p>
-                <p className="text-xs" style={{ color: 'var(--color-primary-400)', opacity: 0.8 }}>
+                <p className="text-[10px] tracking-[0.15em] uppercase" style={{ color: 'var(--color-primary-400)', opacity: 0.7 }}>
                   {isRTL ? 'מאז 1979' : 'Since 1979'}
                 </p>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-sm rounded-lg transition-colors duration-300"
-                  style={{ color: 'var(--color-cream-200)', opacity: 0.8 }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary-300)'; e.currentTarget.style.opacity = '1' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-cream-200)'; e.currentTarget.style.opacity = '0.8' }}
+                  className="relative px-3.5 py-2 text-sm rounded-lg transition-all duration-300 group"
+                  style={{ color: 'rgba(250,248,240,0.6)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary-300)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(250,248,240,0.6)' }}
                 >
                   {link.label}
                 </Link>
@@ -85,41 +90,43 @@ export default function Header() {
             </nav>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-3">
-              {/* Language Toggle */}
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-300 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all duration-300 cursor-pointer"
                 style={{
-                  border: '1px solid rgba(198,169,80,0.2)',
+                  border: '1px solid rgba(198,169,80,0.15)',
                   color: 'var(--color-primary-300)',
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(198,169,80,0.35)'; e.currentTarget.style.backgroundColor = 'rgba(198,169,80,0.05)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(198,169,80,0.15)'; e.currentTarget.style.backgroundColor = 'transparent' }}
                 aria-label="Toggle language"
               >
-                <Globe size={16} />
-                <span className="font-medium">
+                <Globe size={14} />
+                <span className="font-medium text-xs">
                   {lang === 'he' ? 'EN' : 'עב'}
                 </span>
               </button>
 
-              {/* Calendly CTA */}
               <a
                 href={CALENDLY_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex btn-premium text-sm py-2.5 px-5"
+                className="hidden md:flex btn-premium text-xs py-2 px-4"
               >
-                <Calendar size={16} />
-                <span>קבעו פגישה</span>
+                <Calendar size={14} />
+                <span>{isRTL ? 'קבעו פגישה' : 'Book Meeting'}</span>
               </a>
 
-              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="lg:hidden p-2 rounded-lg text-cream-200 cursor-pointer"
+                className="lg:hidden p-2 rounded-lg text-cream-200 cursor-pointer transition-colors"
+                style={{ }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                 aria-label="Toggle menu"
               >
-                {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+                {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>
@@ -130,26 +137,29 @@ export default function Header() {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 pt-24 px-6 pb-8 overflow-y-auto lg:hidden"
-            style={{ backgroundColor: 'rgba(15,15,26,0.98)', backdropFilter: 'blur(16px)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 pt-20 px-6 pb-8 overflow-y-auto lg:hidden"
+            style={{ backgroundColor: 'rgba(8,8,15,0.98)', backdropFilter: 'blur(24px)' }}
           >
-            <nav className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-1 mt-4">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
+                  initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={{ delay: i * 0.04 }}
                 >
                   <Link
                     href={link.href}
                     onClick={() => setIsMobileOpen(false)}
-                    className="block py-4 px-4 text-xl text-cream-100 transition-colors duration-300"
-                    style={{ fontFamily: 'var(--font-frank)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                    className="block py-4 px-4 text-lg text-cream-100 transition-colors duration-300 rounded-xl"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      borderBottom: '1px solid rgba(255,255,255,0.03)',
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -166,7 +176,7 @@ export default function Header() {
                 onClick={() => setIsMobileOpen(false)}
               >
                 <Calendar size={20} />
-                קבעו פגישה
+                {isRTL ? 'קבעו פגישה' : 'Book Meeting'}
               </a>
               <a
                 href={PHONE_TEL}

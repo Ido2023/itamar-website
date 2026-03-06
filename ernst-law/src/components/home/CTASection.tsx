@@ -9,48 +9,46 @@ export default function CTASection() {
   const { t } = useLanguage()
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <section className="py-28 md:py-36 relative overflow-hidden">
       {/* Layered background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(135deg, rgba(10,22,40,1) 0%, rgba(26,38,62,0.95) 50%, rgba(10,22,40,1) 100%)',
-        }}
-      />
-      {/* Gold radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 80% 60% at center, rgba(200,169,110,0.07) 0%, transparent 70%)',
-        }}
-      />
-      {/* Decorative border top + bottom */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[1px]"
-        style={{ background: 'linear-gradient(to right, transparent, rgba(200,169,110,0.3), transparent)' }}
-      />
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px]"
-        style={{ background: 'linear-gradient(to right, transparent, rgba(200,169,110,0.2), transparent)' }}
-      />
+      <div className="absolute inset-0" style={{
+        background: 'linear-gradient(160deg, rgba(5,5,16,1) 0%, rgba(15,20,35,0.98) 40%, rgba(20,28,50,0.95) 60%, rgba(5,5,16,1) 100%)',
+      }} />
+
+      {/* Animated gradient orb */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{
+        width: '800px',
+        height: '500px',
+        background: 'radial-gradient(ellipse, rgba(198,169,80,0.06) 0%, transparent 60%)',
+        filter: 'blur(60px)',
+      }} />
+
+      {/* Grid pattern */}
+      <div className="grid-pattern" />
+
+      {/* Top + bottom dividers */}
+      <div className="section-divider absolute top-0 left-0 right-0" />
+      <div className="section-divider absolute bottom-0 left-0 right-0" />
 
       <div className="section-container relative z-10 text-center">
         <ScrollReveal>
-          <div className="gold-divider mx-auto mb-6" />
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="h-px w-12" style={{ background: 'linear-gradient(to left, rgba(198,169,80,0.5), transparent)' }} />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary-400)' }} />
+            <div className="h-px w-12" style={{ background: 'linear-gradient(to right, rgba(198,169,80,0.5), transparent)' }} />
+          </div>
 
           <h2
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-cream-50 mb-4 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-cream-50 mb-4 leading-tight tracking-tight"
             style={{ fontFamily: 'var(--font-frank)' }}
           >
             {t.cta.title}
           </h2>
-          <p className="text-lg text-cream-200/60 mb-10 max-w-xl mx-auto">
+          <p className="text-lg mb-12 max-w-xl mx-auto" style={{ color: 'rgba(250,248,240,0.4)' }}>
             {t.cta.subtitle}
           </p>
 
-          {/* Three action buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* Primary — Calendly */}
             <a
               href={CALENDLY_LINK}
               target="_blank"
@@ -61,16 +59,23 @@ export default function CTASection() {
               {t.cta.calendly ?? 'קביעת פגישה אונליין'}
             </a>
 
-            {/* WhatsApp */}
             <a
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-400 w-full sm:w-auto"
               style={{
-                backgroundColor: 'rgba(34,197,94,0.12)',
+                background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.04))',
                 color: '#4ade80',
-                border: '2px solid rgba(34,197,94,0.3)',
+                border: '1px solid rgba(34,197,94,0.25)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(34,197,94,0.5)'
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(34,197,94,0.1)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(34,197,94,0.25)'
+                e.currentTarget.style.boxShadow = 'none'
               }}
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -80,13 +85,20 @@ export default function CTASection() {
               WhatsApp
             </a>
 
-            {/* Phone */}
             <a
               href={PHONE_TEL}
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-400 w-full sm:w-auto"
               style={{
-                color: 'rgba(245,240,235,0.8)',
-                border: '2px solid rgba(255,255,255,0.1)',
+                color: 'rgba(250,248,240,0.7)',
+                border: '1px solid rgba(250,248,240,0.08)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(250,248,240,0.2)'
+                e.currentTarget.style.backgroundColor = 'rgba(250,248,240,0.03)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(250,248,240,0.08)'
+                e.currentTarget.style.backgroundColor = 'transparent'
               }}
             >
               <Phone size={20} />
@@ -94,8 +106,8 @@ export default function CTASection() {
             </a>
           </div>
 
-          <p className="text-xs mt-8" style={{ color: 'rgba(200,169,110,0.4)' }}>
-            ✦ שיחת ייעוץ ראשונית ללא התחייבות ✦
+          <p className="text-xs mt-10 tracking-wider" style={{ color: 'rgba(198,169,80,0.3)' }}>
+            שיחת ייעוץ ראשונית ללא התחייבות
           </p>
         </ScrollReveal>
       </div>

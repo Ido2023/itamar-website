@@ -13,90 +13,117 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Deep layered background */}
+      {/* Deep gradient base */}
       <div
         className="absolute inset-0"
-        style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0F1923 40%, #16213E 70%, #0F3460 100%)' }}
+        style={{ background: 'linear-gradient(160deg, #050510 0%, #0a0f1e 30%, #0c1628 60%, #0a1020 100%)' }}
       />
 
-      {/* Radial glow — top right */}
-      <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 70% 20%, rgba(200,169,110,0.08) 0%, transparent 60%)',
-        }}
-      />
-      {/* Radial glow — bottom left */}
-      <div
-        className="absolute bottom-0 left-0 w-[500px] h-[500px] pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 30% 80%, rgba(15,52,96,0.6) 0%, transparent 60%)',
-        }}
-      />
-
-      {/* Subtle grid pattern */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: 0.025,
-          backgroundImage:
-            'linear-gradient(rgba(200,169,110,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(200,169,110,0.4) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
-        }}
-      />
-
-      {/* Gold top accent line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{ background: 'linear-gradient(to right, transparent, rgba(200,169,110,0.5), rgba(200,169,110,0.8), rgba(200,169,110,0.5), transparent)' }}
-      />
-
-      {/* Floating decorative elements */}
+      {/* Animated mesh gradient blobs */}
       <motion.div
-        animate={{ y: [-12, 12, -12], rotate: [0, 8, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/3 hidden lg:block"
-        style={{ [isRTL ? 'left' : 'right']: '2%', opacity: 0.06 }}
+        animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute pointer-events-none"
+        style={{
+          top: '-10%',
+          right: '-5%',
+          width: '700px',
+          height: '700px',
+          background: 'radial-gradient(circle, rgba(198,169,80,0.07) 0%, transparent 60%)',
+          filter: 'blur(60px)',
+        }}
+      />
+      <motion.div
+        animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+        className="absolute pointer-events-none"
+        style={{
+          bottom: '-15%',
+          left: '-10%',
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(15,52,96,0.4) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }}
+      />
+
+      {/* Grid pattern overlay */}
+      <div className="grid-pattern" />
+
+      {/* Horizontal accent lines */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.6), rgba(198,169,80,0.8), rgba(198,169,80,0.6), transparent)'
+      }} />
+      <div className="absolute top-[1px] left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent 20%, rgba(198,169,80,0.15) 50%, transparent 80%)',
+        filter: 'blur(4px)',
+      }} />
+
+      {/* Geometric floating elements */}
+      <motion.div
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        className="absolute hidden lg:block pointer-events-none"
+        style={{ top: '15%', [isRTL ? 'left' : 'right']: '8%' }}
       >
-        <div
-          className="w-40 h-40 rounded-3xl"
-          style={{ border: '1px solid rgba(200,169,110,1)' }}
-        />
+        <div className="w-32 h-32" style={{
+          border: '1px solid rgba(198,169,80,0.08)',
+          borderRadius: '1.5rem',
+        }} />
       </motion.div>
       <motion.div
-        animate={{ y: [8, -8, 8], rotate: [0, -6, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute bottom-1/4 hidden lg:block"
-        style={{ [isRTL ? 'right' : 'left']: '1%', opacity: 0.04 }}
+        animate={{ rotate: [0, -360] }}
+        transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+        className="absolute hidden lg:block pointer-events-none"
+        style={{ bottom: '20%', [isRTL ? 'right' : 'left']: '5%' }}
       >
-        <div
-          className="w-28 h-28 rounded-full"
-          style={{ border: '1px solid rgba(200,169,110,1)' }}
-        />
+        <div className="w-20 h-20 rounded-full" style={{
+          border: '1px solid rgba(198,169,80,0.06)',
+        }} />
       </motion.div>
+
+      {/* Diagonal accent lines */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden lg:block">
+        <div className="absolute" style={{
+          top: '10%',
+          right: '15%',
+          width: '300px',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.12), transparent)',
+          transform: 'rotate(-35deg)',
+        }} />
+        <div className="absolute" style={{
+          bottom: '25%',
+          left: '10%',
+          width: '200px',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.08), transparent)',
+          transform: 'rotate(25deg)',
+        }} />
+      </div>
 
       {/* Main content */}
       <div className="section-container relative z-10 pt-28 pb-16 md:pt-36 md:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* Left column — Text */}
+          {/* Text column */}
           <div className={isRTL ? 'lg:order-1' : 'lg:order-2'}>
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8"
               style={{
-                backgroundColor: 'rgba(200,169,110,0.1)',
-                border: '1px solid rgba(200,169,110,0.25)',
+                background: 'linear-gradient(135deg, rgba(198,169,80,0.08), rgba(198,169,80,0.03))',
+                border: '1px solid rgba(198,169,80,0.2)',
               }}
             >
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: 'var(--color-primary-400)' }}
-              />
-              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--color-primary-300)' }}>
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping" style={{ backgroundColor: 'var(--color-primary-400)' }} />
+                <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--color-primary-400)' }} />
+              </span>
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: 'var(--color-primary-300)' }}>
                 {t.hero.badge}
               </span>
             </motion.div>
@@ -106,19 +133,12 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-bold leading-[1.05] mb-4"
-              style={{ fontFamily: 'var(--font-frank)', fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
+              className="font-bold leading-[1.02] mb-5"
+              style={{ fontFamily: 'var(--font-frank)', fontSize: 'clamp(2.8rem, 5.5vw, 5rem)' }}
             >
-              <span style={{ color: '#F5F0EB' }}>{t.hero.title}</span>
+              <span style={{ color: '#F0ECE5' }}>{t.hero.title}</span>
               <br />
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #C8A96E 0%, #D4BC8A 50%, #A8884E 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
+              <span className="text-gold-gradient">
                 {t.hero.titleHighlight}
               </span>
             </motion.h1>
@@ -128,7 +148,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl sm:text-2xl mb-4 font-medium"
+              className="text-xl sm:text-2xl mb-3 font-medium"
               style={{ fontFamily: 'var(--font-frank)', color: 'rgba(212,188,138,0.85)' }}
             >
               {t.hero.subtitle}
@@ -139,8 +159,8 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-base max-w-lg mb-8 leading-relaxed"
-              style={{ color: 'rgba(245,240,235,0.65)' }}
+              className="text-base max-w-lg mb-10 leading-relaxed"
+              style={{ color: 'rgba(240,236,229,0.55)' }}
             >
               {t.hero.description}
             </motion.p>
@@ -150,9 +170,8 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 mb-10"
+              className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              {/* Primary — Calendly */}
               <a
                 href={CALENDLY_LINK}
                 target="_blank"
@@ -162,34 +181,41 @@ export default function HeroSection() {
                 <Calendar size={20} />
                 {t.hero.cta}
               </a>
-              {/* Secondary — Practice areas */}
               <Link href="/practice-areas" className="btn-outline text-base sm:text-lg">
                 {t.hero.ctaSecondary}
                 <Arrow size={18} />
               </Link>
             </motion.div>
 
-            {/* Since badge + WhatsApp inline */}
+            {/* Bottom info row */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              className="flex flex-wrap items-center gap-4 sm:gap-6"
+              className="flex flex-wrap items-center gap-6"
             >
-              <div className="flex items-center gap-3">
-                <div className="h-[1px] w-10" style={{ backgroundColor: 'rgba(200,169,110,0.3)' }} />
-                <span
-                  className="text-sm tracking-widest"
-                  style={{ fontFamily: 'var(--font-frank)', color: 'rgba(200,169,110,0.55)' }}
-                >
-                  {t.hero.since}
-                </span>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
+                  background: 'rgba(198,169,80,0.06)',
+                  border: '1px solid rgba(198,169,80,0.12)',
+                }}>
+                  <span className="text-sm font-bold" style={{ color: 'var(--color-primary-400)' }}>+45</span>
+                  <span className="text-xs" style={{ color: 'rgba(198,169,80,0.6)' }}>{isRTL ? 'שנות ניסיון' : 'Years'}</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
+                  background: 'rgba(198,169,80,0.06)',
+                  border: '1px solid rgba(198,169,80,0.12)',
+                }}>
+                  <span className="text-sm font-bold" style={{ color: 'var(--color-primary-400)' }}>+1,000</span>
+                  <span className="text-xs" style={{ color: 'rgba(198,169,80,0.6)' }}>{isRTL ? 'משפחות' : 'Families'}</span>
+                </div>
               </div>
+
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium transition-all duration-300"
+                className="inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 hover:opacity-80"
                 style={{ color: '#4ade80' }}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -201,75 +227,62 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right column — Portrait image */}
+          {/* Portrait column */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, x: isRTL ? -40 : 40 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className={`relative hidden lg:flex justify-center ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}
           >
-            {/* Glow ring behind image */}
-            <div
-              className="absolute inset-0 rounded-3xl"
-              style={{
-                background: 'radial-gradient(ellipse at center, rgba(200,169,110,0.15) 0%, transparent 70%)',
-                transform: 'scale(1.1)',
-              }}
-            />
-            {/* Gold border frame */}
-            <div
-              className="absolute inset-0 rounded-3xl"
-              style={{
-                border: '1px solid rgba(200,169,110,0.2)',
-                transform: 'translate(12px, 12px)',
-                borderRadius: '1.5rem',
-              }}
-            />
+            {/* Glow ring */}
+            <div className="absolute inset-0" style={{
+              background: 'radial-gradient(ellipse at center, rgba(198,169,80,0.12) 0%, transparent 70%)',
+              transform: 'scale(1.15)',
+              filter: 'blur(20px)',
+            }} />
+
+            {/* Geometric frame lines */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 pointer-events-none" style={{
+              borderTop: '1px solid rgba(198,169,80,0.3)',
+              borderRight: '1px solid rgba(198,169,80,0.3)',
+              borderTopRightRadius: '1.5rem',
+            }} />
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 pointer-events-none" style={{
+              borderBottom: '1px solid rgba(198,169,80,0.3)',
+              borderLeft: '1px solid rgba(198,169,80,0.3)',
+              borderBottomLeftRadius: '1.5rem',
+            }} />
+
             {/* Image container */}
-            <div
-              className="relative overflow-hidden"
-              style={{
-                borderRadius: '1.5rem',
-                border: '1px solid rgba(200,169,110,0.15)',
-                maxWidth: '460px',
-                width: '100%',
-              }}
-            >
+            <div className="relative overflow-hidden" style={{
+              borderRadius: '1.5rem',
+              border: '1px solid rgba(198,169,80,0.15)',
+              maxWidth: '440px',
+              width: '100%',
+              boxShadow: '0 30px 80px -20px rgba(0,0,0,0.6)',
+            }}>
               <Image
                 src="/images/IMG_2089.png"
                 alt="עו״ד איתמר ארנסט"
-                width={460}
-                height={560}
+                width={440}
+                height={540}
                 className="w-full h-auto object-cover"
                 style={{ display: 'block' }}
                 priority
               />
-              {/* Bottom overlay gradient */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-32"
-                style={{
-                  background: 'linear-gradient(to top, rgba(10,22,40,0.7) 0%, transparent 100%)',
-                }}
-              />
-              {/* Name badge overlay */}
-              <div
-                className="absolute bottom-6 left-0 right-0 flex justify-center"
-              >
-                <div
-                  className="px-5 py-2.5 rounded-xl text-center"
-                  style={{
-                    background: 'rgba(10,22,40,0.85)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(200,169,110,0.25)',
-                  }}
-                >
-                  <p
-                    className="text-base font-bold"
-                    style={{ fontFamily: 'var(--font-frank)', color: '#F5F0EB' }}
-                  >
+              <div className="absolute bottom-0 left-0 right-0 h-40" style={{
+                background: 'linear-gradient(to top, rgba(5,5,16,0.9) 0%, transparent 100%)',
+              }} />
+              <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+                <div className="px-6 py-3 rounded-xl text-center" style={{
+                  background: 'rgba(5,5,16,0.85)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(198,169,80,0.2)',
+                }}>
+                  <p className="text-base font-bold" style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}>
                     עו&quot;ד איתמר ארנסט
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: 'rgba(200,169,110,0.8)' }}>
+                  <p className="text-xs mt-0.5 tracking-wider" style={{ color: 'rgba(198,169,80,0.7)' }}>
                     משרד מוביל בתחומו
                   </p>
                 </div>
@@ -279,22 +292,22 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Bottom scroll indicator */}
+      {/* Scroll indicator */}
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-1"
-        style={{ color: 'rgba(200,169,110,0.4)' }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2"
       >
-        <span className="text-xs tracking-widest" style={{ fontFamily: 'var(--font-frank)' }}>גלול</span>
-        <ChevronDown size={16} />
+        <div className="w-[1px] h-8" style={{
+          background: 'linear-gradient(to bottom, rgba(198,169,80,0.4), transparent)',
+        }} />
+        <ChevronDown size={14} style={{ color: 'rgba(198,169,80,0.4)' }} />
       </motion.div>
 
       {/* Bottom fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-        style={{ background: 'linear-gradient(to top, var(--color-dark-900), transparent)' }}
-      />
+      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{
+        background: 'linear-gradient(to top, var(--color-dark-950), transparent)',
+      }} />
     </section>
   )
 }
