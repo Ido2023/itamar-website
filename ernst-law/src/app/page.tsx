@@ -12,10 +12,12 @@ import ArticlesPreview from '@/components/home/ArticlesPreview'
 import CTASection from '@/components/home/CTASection'
 import ContactForm from '@/components/home/ContactForm'
 import FloatingActions from '@/components/ui/FloatingActions'
+import CursorGlow from '@/components/ui/CursorGlow'
 
 export default function HomePage() {
   return (
     <>
+      <CursorGlow />
       <Header />
       <main>
         <HeroSection />
