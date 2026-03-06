@@ -3,52 +3,74 @@
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { Calendar, Phone } from 'lucide-react'
 import { PHONE_TEL, PHONE_NUMBER, WHATSAPP_LINK, CALENDLY_LINK } from '@/lib/constants'
-import ScrollReveal from '@/components/ui/ScrollReveal'
+import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 
 export default function CTASection() {
-  const { t } = useLanguage()
+  const { t, isRTL } = useLanguage()
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 })
 
   return (
-    <section className="py-28 md:py-36 relative overflow-hidden">
-      {/* Layered background */}
+    <section className="py-32 md:py-44 relative overflow-hidden" ref={ref}>
+      {/* Background */}
       <div className="absolute inset-0" style={{
         background: 'linear-gradient(160deg, rgba(5,5,16,1) 0%, rgba(15,20,35,0.98) 40%, rgba(20,28,50,0.95) 60%, rgba(5,5,16,1) 100%)',
       }} />
 
-      {/* Animated gradient orb */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{
-        width: '800px',
-        height: '500px',
-        background: 'radial-gradient(ellipse, rgba(198,169,80,0.06) 0%, transparent 60%)',
-        filter: 'blur(60px)',
+      {/* Gradient orbs */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] pointer-events-none" style={{
+        background: 'radial-gradient(circle, rgba(198,169,80,0.05) 0%, transparent 60%)',
+        filter: 'blur(80px)',
+      }} />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] pointer-events-none" style={{
+        background: 'radial-gradient(circle, rgba(15,52,96,0.3) 0%, transparent 60%)',
+        filter: 'blur(80px)',
       }} />
 
-      {/* Grid pattern */}
-      <div className="grid-pattern" />
+      {/* Grid */}
+      <div className="absolute inset-0 opacity-[0.015]" style={{
+        backgroundImage: 'linear-gradient(rgba(198,169,80,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(198,169,80,0.8) 1px, transparent 1px)',
+        backgroundSize: '80px 80px',
+      }} />
 
-      {/* Top + bottom dividers */}
-      <div className="section-divider absolute top-0 left-0 right-0" />
-      <div className="section-divider absolute bottom-0 left-0 right-0" />
+      {/* Dividers */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.4), transparent)',
+      }} />
+      <div className="absolute bottom-0 left-0 right-0 h-px" style={{
+        background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.3), transparent)',
+      }} />
 
-      <div className="section-container relative z-10 text-center">
-        <ScrollReveal>
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="h-px w-12" style={{ background: 'linear-gradient(to left, rgba(198,169,80,0.5), transparent)' }} />
-            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary-400)' }} />
-            <div className="h-px w-12" style={{ background: 'linear-gradient(to right, rgba(198,169,80,0.5), transparent)' }} />
-          </div>
-
-          <h2
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-cream-50 mb-4 leading-tight tracking-tight"
-            style={{ fontFamily: 'var(--font-frank)' }}
+      <div className="section-container relative z-10">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
           >
-            {t.cta.title}
-          </h2>
-          <p className="text-lg mb-12 max-w-xl mx-auto" style={{ color: 'rgba(250,248,240,0.4)' }}>
-            {t.cta.subtitle}
-          </p>
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="h-px w-16" style={{ background: 'linear-gradient(to left, rgba(198,169,80,0.5), transparent)' }} />
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--color-primary-400)' }} />
+              <div className="h-px w-16" style={{ background: 'linear-gradient(to right, rgba(198,169,80,0.5), transparent)' }} />
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <h2
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
+              style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}
+            >
+              {t.cta.title}
+            </h2>
+            <p className="text-lg mb-14" style={{ color: 'rgba(240,236,229,0.4)' }}>
+              {t.cta.subtitle}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
             <a
               href={CALENDLY_LINK}
               target="_blank"
@@ -65,17 +87,19 @@ export default function CTASection() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-400 w-full sm:w-auto"
               style={{
-                background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.04))',
+                background: 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.03))',
                 color: '#4ade80',
-                border: '1px solid rgba(34,197,94,0.25)',
+                border: '1px solid rgba(34,197,94,0.2)',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(34,197,94,0.5)'
-                e.currentTarget.style.boxShadow = '0 0 30px rgba(34,197,94,0.1)'
+                e.currentTarget.style.boxShadow = '0 0 40px rgba(34,197,94,0.1)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(34,197,94,0.25)'
+                e.currentTarget.style.borderColor = 'rgba(34,197,94,0.2)'
                 e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -89,27 +113,35 @@ export default function CTASection() {
               href={PHONE_TEL}
               className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-medium text-base transition-all duration-400 w-full sm:w-auto"
               style={{
-                color: 'rgba(250,248,240,0.7)',
-                border: '1px solid rgba(250,248,240,0.08)',
+                color: 'rgba(240,236,229,0.6)',
+                border: '1px solid rgba(240,236,229,0.06)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(250,248,240,0.2)'
-                e.currentTarget.style.backgroundColor = 'rgba(250,248,240,0.03)'
+                e.currentTarget.style.borderColor = 'rgba(240,236,229,0.15)'
+                e.currentTarget.style.backgroundColor = 'rgba(240,236,229,0.03)'
+                e.currentTarget.style.transform = 'translateY(-2px)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(250,248,240,0.08)'
+                e.currentTarget.style.borderColor = 'rgba(240,236,229,0.06)'
                 e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
               <Phone size={20} />
               <span dir="ltr">{PHONE_NUMBER}</span>
             </a>
-          </div>
+          </motion.div>
 
-          <p className="text-xs mt-10 tracking-wider" style={{ color: 'rgba(198,169,80,0.3)' }}>
-            שיחת ייעוץ ראשונית ללא התחייבות
-          </p>
-        </ScrollReveal>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-xs mt-12 tracking-wider"
+            style={{ color: 'rgba(198,169,80,0.25)' }}
+          >
+            {isRTL ? 'שיחת ייעוץ ראשונית ללא התחייבות' : 'Initial consultation with no obligation'}
+          </motion.p>
+        </div>
       </div>
     </section>
   )
