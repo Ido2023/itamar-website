@@ -3,15 +3,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { TESTIMONIALS } from '@/lib/constants'
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import SectionFade from '@/components/ui/SectionFade'
 import useEmblaCarousel from 'embla-carousel-react'
 
 export default function TestimonialsCarousel() {
-  const { t, lang, isRTL } = useLanguage()
+  const { lang, isRTL } = useLanguage()
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const { ref: sectionRef, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -33,146 +31,167 @@ export default function TestimonialsCarousel() {
 
   useEffect(() => {
     if (!emblaApi) return
-    const interval = setInterval(() => emblaApi.scrollNext(), 6000)
+    const interval = setInterval(() => emblaApi.scrollNext(), 7000)
     return () => clearInterval(interval)
   }, [emblaApi])
 
-  const current = TESTIMONIALS[selectedIndex]
-
   return (
-    <section className="relative overflow-hidden" ref={sectionRef} style={{ background: '#0a0c14' }}>
-      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.15), transparent)' }} />
+    <SectionFade
+      id="testimonials"
+      yOffset={32}
+    >
+      <div style={{ borderTop: '1px solid var(--color-rule)' }} />
 
       <div className="section-container py-24 md:py-32">
-        {/* Header with nav */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-10" style={{ background: 'var(--color-primary-400)' }} />
-              <span className="text-xs font-semibold tracking-[0.25em] uppercase" style={{ color: 'var(--color-primary-400)' }}>
-                {isRTL ? 'המלצות' : 'Testimonials'}
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+          <div className="lg:col-span-3">
+            <div className="flex items-center gap-4">
+              <span className="section-num">V</span>
+              <span className="eyebrow">
+                {isRTL ? 'לקוחות ממליצים' : 'Testimonials'}
               </span>
             </div>
+          </div>
+          <div className="lg:col-span-9 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight"
-              style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}
+              className="font-bold tracking-tight max-w-2xl"
+              style={{
+                fontFamily: 'var(--font-frank)',
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.015em',
+              }}
             >
-              {t.testimonials.sectionTitle}
+              {isRTL
+                ? 'מה אומרים הלקוחות שלנו.'
+                : 'What our clients say.'}
             </h2>
-          </motion.div>
-
-          {/* Navigation arrows */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={scrollPrev}
-              className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
-              style={{ border: '1px solid rgba(198,169,80,0.15)', color: 'var(--color-primary-400)' }}
-              aria-label="Previous"
-            >
-              {isRTL ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-            </button>
-            <button
-              onClick={scrollNext}
-              className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
-              style={{ border: '1px solid rgba(198,169,80,0.15)', color: 'var(--color-primary-400)' }}
-              aria-label="Next"
-            >
-              {isRTL ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
-            </button>
-            <div className="flex gap-1.5 ms-3">
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => emblaApi?.scrollTo(i)}
-                  className="h-1 rounded-full transition-all duration-500 cursor-pointer"
-                  style={{
-                    width: i === selectedIndex ? '2rem' : '0.5rem',
-                    backgroundColor: i === selectedIndex ? 'var(--color-primary-400)' : 'rgba(198,169,80,0.15)',
-                  }}
-                  aria-label={`Go to ${i + 1}`}
-                />
-              ))}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={scrollPrev}
+                className="w-10 h-10 flex items-center justify-center transition-colors"
+                style={{
+                  border: '1px solid var(--color-rule-strong)',
+                  color: 'var(--color-ink)',
+                }}
+                aria-label="Previous"
+              >
+                {isRTL ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+              </button>
+              <button
+                onClick={scrollNext}
+                className="w-10 h-10 flex items-center justify-center transition-colors"
+                style={{
+                  border: '1px solid var(--color-rule-strong)',
+                  color: 'var(--color-ink)',
+                }}
+                aria-label="Next"
+              >
+                {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Large featured quote */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="mb-10"
+        {/* Carousel */}
+        <div
+          ref={emblaRef}
+          className="overflow-hidden"
+          style={{ borderTop: '1px solid var(--color-rule)' }}
         >
-          <blockquote className="relative">
-            <span className="absolute -top-4 text-8xl font-bold leading-none pointer-events-none" style={{
-              fontFamily: 'Georgia, serif',
-              color: 'rgba(198,169,80,0.08)',
-              [isRTL ? 'right' : 'left']: 0,
-            }}>
-              &ldquo;
-            </span>
-            <p
-              className="text-xl md:text-2xl lg:text-3xl leading-relaxed pt-8 mb-8"
-              style={{ fontFamily: 'var(--font-frank)', color: 'rgba(240,236,229,0.75)' }}
-            >
-              {lang === 'he' ? current.textHe : current.textEn}
-            </p>
-            <footer className="flex items-center gap-4">
-              <div className="h-px w-8" style={{ background: 'rgba(198,169,80,0.3)' }} />
-              <div>
-                <cite className="not-italic font-bold text-base" style={{ color: '#F0ECE5', fontFamily: 'var(--font-frank)' }}>
-                  {lang === 'he' ? current.nameHe : current.nameEn}
-                </cite>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className="text-xs" style={{ color: 'rgba(240,236,229,0.3)' }}>{current.date}</span>
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: current.rating }).map((_, j) => (
-                      <Star key={j} size={12} fill="var(--color-primary-400)" style={{ color: 'var(--color-primary-400)' }} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </footer>
-          </blockquote>
-        </motion.div>
-
-        {/* Small carousel thumbnails */}
-        <div ref={emblaRef} className="overflow-hidden">
           <div className="flex">
             {TESTIMONIALS.map((testimonial, i) => (
-              <div key={i} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_25%] px-2">
-                <button
-                  onClick={() => emblaApi?.scrollTo(i)}
-                  className="w-full text-start py-4 px-5 rounded-xl transition-all duration-300 cursor-pointer"
-                  style={{
-                    background: i === selectedIndex ? 'rgba(198,169,80,0.04)' : 'transparent',
-                    borderBottom: i === selectedIndex
-                      ? '2px solid var(--color-primary-400)'
-                      : '2px solid transparent',
-                  }}
-                >
-                  <p className="text-xs line-clamp-2 mb-2" style={{
-                    color: i === selectedIndex ? 'rgba(240,236,229,0.6)' : 'rgba(240,236,229,0.25)',
-                  }}>
-                    {lang === 'he' ? testimonial.textHe : testimonial.textEn}
-                  </p>
-                  <p className="text-xs font-bold" style={{
-                    color: i === selectedIndex ? 'var(--color-primary-400)' : 'rgba(240,236,229,0.3)',
-                  }}>
-                    {lang === 'he' ? testimonial.nameHe : testimonial.nameEn}
-                  </p>
-                </button>
+              <div key={i} className="flex-[0_0_100%] min-w-0">
+                <blockquote className="grid grid-cols-1 lg:grid-cols-12 gap-10 py-14 md:py-20">
+                  <div className="lg:col-span-1 flex items-start">
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-frank)',
+                        color: 'var(--color-accent)',
+                        fontSize: '4.5rem',
+                        lineHeight: 0.7,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {isRTL ? '״' : '“'}
+                    </span>
+                  </div>
+                  <div className="lg:col-span-11">
+                    <p
+                      className="font-medium tracking-tight"
+                      style={{
+                        fontFamily: 'var(--font-frank)',
+                        color: 'var(--color-ink)',
+                        fontSize: 'clamp(1.4rem, 2.5vw, 2.1rem)',
+                        lineHeight: 1.4,
+                        letterSpacing: '-0.005em',
+                        fontWeight: 400,
+                      }}
+                    >
+                      {lang === 'he' ? testimonial.textHe : testimonial.textEn}
+                    </p>
+                    <footer className="mt-10 flex items-center gap-4">
+                      <div
+                        className="h-px w-10"
+                        style={{ background: 'var(--color-accent)' }}
+                      />
+                      <div>
+                        <cite
+                          className="not-italic text-base font-bold tracking-tight block"
+                          style={{
+                            color: 'var(--color-ink)',
+                            fontFamily: 'var(--font-frank)',
+                          }}
+                        >
+                          {lang === 'he' ? testimonial.nameHe : testimonial.nameEn}
+                        </cite>
+                        <span
+                          className="text-xs tracking-wider mt-1 inline-block"
+                          style={{ color: 'var(--color-ink-soft)' }}
+                        >
+                          {testimonial.date}
+                        </span>
+                      </div>
+                    </footer>
+                  </div>
+                </blockquote>
               </div>
             ))}
           </div>
         </div>
-      </div>
 
-      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.15), transparent)' }} />
-    </section>
+        <div
+          className="flex items-center gap-2 mt-2"
+          style={{ borderTop: '1px solid var(--color-rule)' }}
+        >
+          <div className="flex-1 flex items-center gap-2 pt-5">
+            {TESTIMONIALS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => emblaApi?.scrollTo(i)}
+                className="h-1 transition-all duration-500"
+                style={{
+                  width: i === selectedIndex ? '2.5rem' : '1rem',
+                  backgroundColor:
+                    i === selectedIndex
+                      ? 'var(--color-accent)'
+                      : 'var(--color-rule-strong)',
+                }}
+                aria-label={`Go to ${i + 1}`}
+              />
+            ))}
+          </div>
+          <span
+            className="text-xs tracking-wider pt-5"
+            style={{ color: 'var(--color-ink-soft)' }}
+          >
+            {String(selectedIndex + 1).padStart(2, '0')} /{' '}
+            {String(TESTIMONIALS.length).padStart(2, '0')}
+          </span>
+        </div>
+      </div>
+    </SectionFade>
   )
 }

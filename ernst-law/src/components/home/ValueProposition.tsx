@@ -1,99 +1,107 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import { Building2, ShieldCheck, Lightbulb, PiggyBank } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-
-const icons = [Building2, ShieldCheck, Lightbulb, PiggyBank]
+import SectionFade from '@/components/ui/SectionFade'
 
 export default function ValueProposition() {
   const { t, isRTL } = useLanguage()
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 })
 
   const items = [
-    { title: t.value.oneStopTitle, desc: t.value.oneStopDesc },
+    { title: t.value.oneStopTitle,    desc: t.value.oneStopDesc },
     { title: t.value.preventionTitle, desc: t.value.preventionDesc },
     { title: t.value.innovationTitle, desc: t.value.innovationDesc },
-    { title: t.value.savingsTitle, desc: t.value.savingsDesc },
+    { title: t.value.savingsTitle,    desc: t.value.savingsDesc },
   ]
 
   return (
-    <section
-      className="relative overflow-hidden"
-      ref={ref}
-      style={{ background: 'linear-gradient(180deg, #08080f 0%, #0d0f1a 100%)' }}
+    <SectionFade
+      id="approach"
+      yOffset={32}
     >
-      {/* Top border */}
-      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.2), transparent)' }} />
+      <div style={{ borderTop: '1px solid var(--color-rule)' }} />
 
       <div className="section-container py-24 md:py-32">
-        {/* Big number + title lockup */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-          {/* Left: section label */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6 }}
-            className="lg:w-1/3 shrink-0"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-10" style={{ background: 'var(--color-primary-400)' }} />
-              <span className="text-xs font-semibold tracking-[0.25em] uppercase" style={{ color: 'var(--color-primary-400)' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+          {/* Left: section label + headline */}
+          <div className="lg:col-span-5">
+            <div className="flex items-center gap-4">
+              <span className="section-num">III</span>
+              <span className="eyebrow">
                 {isRTL ? 'הגישה שלנו' : 'Our Approach'}
               </span>
             </div>
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]"
-              style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}
+              className="mt-7 font-bold tracking-tight"
+              style={{
+                fontFamily: 'var(--font-frank)',
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.015em',
+              }}
             >
-              {t.value.sectionTitle}
+              {isRTL
+                ? 'הכל תחת קורת גג אחת — מהתכנון ועד הביצוע.'
+                : 'Everything under one roof — from planning to execution.'}
             </h2>
-            <p className="mt-4 text-sm leading-relaxed" style={{ color: 'rgba(240,236,229,0.4)' }}>
-              {t.value.sectionSubtitle}
+            <p
+              className="mt-5 text-base md:text-lg max-w-md"
+              style={{ color: 'var(--color-ink-mid)', lineHeight: 1.7 }}
+            >
+              {isRTL
+                ? 'גישה אינטגרטיבית המבוססת על ארבעה עקרונות מנחים, שמייצרת ודאות לטווח הארוך עבור המשפחה.'
+                : 'An integrative approach built on four guiding principles that delivers long-term certainty for the family.'}
             </p>
-          </motion.div>
+          </div>
 
-          {/* Right: items — no cards, just clean list */}
-          <div className="flex-1 w-full">
-            {items.map((item, i) => {
-              const Icon = icons[i]
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-                  className="group flex gap-6 py-8 transition-all duration-300"
-                  style={{
-                    borderBottom: i < items.length - 1 ? '1px solid rgba(198,169,80,0.06)' : 'none',
-                  }}
-                >
-                  {/* Number */}
-                  <span className="text-3xl font-bold shrink-0 w-12 transition-colors duration-300" style={{
-                    fontFamily: 'var(--font-frank)',
-                    color: 'rgba(198,169,80,0.12)',
-                  }}>
+          {/* Right: numbered list */}
+          <div
+            className="lg:col-span-7"
+            style={{ borderTop: '1px solid var(--color-rule)' }}
+          >
+            {items.map((item, i) => (
+              <div
+                key={i}
+                className="grid grid-cols-12 gap-5 py-8"
+                style={{ borderBottom: '1px solid var(--color-rule)' }}
+              >
+                <div className="col-span-2 sm:col-span-1">
+                  <span
+                    className="text-sm tracking-wider"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-accent)',
+                      fontWeight: 400,
+                    }}
+                  >
                     {String(i + 1).padStart(2, '0')}
                   </span>
-
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <Icon size={18} style={{ color: 'var(--color-primary-400)' }} className="opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-                      <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}>
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(240,236,229,0.4)' }}>
-                      {item.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              )
-            })}
+                </div>
+                <div className="col-span-10 sm:col-span-11">
+                  <h3
+                    className="text-xl md:text-2xl font-bold tracking-tight mb-2"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink)',
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className="text-sm md:text-[0.95rem]"
+                    style={{
+                      color: 'var(--color-ink-mid)',
+                      lineHeight: 1.65,
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>
+    </SectionFade>
   )
 }

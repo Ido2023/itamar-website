@@ -91,8 +91,15 @@ export const TESTIMONIALS = [
   },
 ]
 
-export const PHONE_NUMBER = '+972 55-5635145'
-export const PHONE_TEL = 'tel:+972555635145'
-export const WHATSAPP_LINK = 'https://wa.me/972555635145'
+export const PHONE_NUMBER = '052-6070779'
+export const PHONE_TEL = 'tel:+972526070779'
+export const EMAIL = 'ernstadv@gmail.com'
+export const WHATSAPP_LINK = 'https://wa.me/972526070779'
 export const CALENDLY_LINK = 'https://calendly.com/d/ctm3-wj6-vw8'
 export const SITE_URL = 'https://ernst-law.vercel.app'
+
+export const SOCIAL = {
+  facebook: 'https://www.facebook.com/ItamarErnst.adv/',
+  instagram: 'https://www.instagram.com/itamar_ernst_adv/',
+  waze: 'https://waze.com/ul?ll=31.69405365,34.72008896&navigate=yes',
+}

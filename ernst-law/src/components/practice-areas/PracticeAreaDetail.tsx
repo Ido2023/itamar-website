@@ -2,14 +2,14 @@
 
 import PageWrapper from '@/components/layout/PageWrapper'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import ScrollReveal from '@/components/ui/ScrollReveal'
+import SectionFade from '@/components/ui/SectionFade'
 import Link from 'next/link'
-import { Phone, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
-import { PHONE_NUMBER } from '@/lib/constants'
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CALENDLY_LINK, PHONE_TEL, PHONE_NUMBER } from '@/lib/constants'
 import type { LucideIcon } from 'lucide-react'
 
 interface PracticeAreaDetailProps {
-  icon: LucideIcon
+  icon?: LucideIcon
   titleHe: string
   titleEn: string
   descHe: string
@@ -21,7 +21,6 @@ interface PracticeAreaDetailProps {
 }
 
 export default function PracticeAreaDetail({
-  icon: Icon,
   titleHe,
   titleEn,
   descHe,
@@ -37,95 +36,140 @@ export default function PracticeAreaDetail({
   const details = lang === 'he' ? detailsHe : detailsEn
   const benefits = lang === 'he' ? benefitsHe : benefitsEn
   const BackArrow = isRTL ? ChevronRight : ChevronLeft
+  const Arrow = isRTL ? ArrowLeft : ArrowRight
 
   return (
     <PageWrapper>
       {/* Hero */}
-      <section className="py-16 md:py-24 relative">
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, rgba(198,169,80,0.05) 0%, transparent 50%)' }}
-        />
-        <div className="section-container relative z-10">
-          <ScrollReveal>
-            <Link
-              href="/practice-areas"
-              className="inline-flex items-center gap-1 text-sm mb-6 transition-colors duration-300"
-              style={{ color: 'var(--color-primary-400)' }}
-            >
-              <BackArrow size={16} />
-              {t.areas.sectionTitle}
-            </Link>
+      <SectionFade>
+        <div className="section-container pt-16 md:pt-24 pb-10 md:pb-16">
+          <Link
+            href="/practice-areas"
+            className="inline-flex items-center gap-2 text-xs tracking-wider mb-10 transition-colors hover:text-[color:var(--color-accent)]"
+            style={{ color: 'var(--color-ink-mid)' }}
+          >
+            <BackArrow size={14} />
+            {t.areas.sectionTitle}
+          </Link>
 
-            <div className="flex items-center gap-4 mb-6">
-              <div
-                className="w-16 h-16 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(198,169,80,0.1)', border: '1px solid rgba(198,169,80,0.2)' }}
-              >
-                <Icon size={30} style={{ color: 'var(--color-primary-400)' }} />
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cream-50"
-                  style={{ fontFamily: 'var(--font-frank)' }}>
-                {title}
-              </h1>
-            </div>
+          <div className="flex items-center gap-4 mb-8">
+            <span className="section-num">·</span>
+            <span className="eyebrow">
+              {isRTL ? 'תחום התמחות' : 'Practice Area'}
+            </span>
+          </div>
 
-            <p className="text-lg text-cream-200/70 max-w-3xl leading-relaxed">
-              {desc}
-            </p>
-          </ScrollReveal>
+          <h1
+            className="font-bold tracking-tight max-w-4xl"
+            style={{
+              fontFamily: 'var(--font-frank)',
+              color: 'var(--color-ink)',
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)',
+              lineHeight: 1.02,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            {title}
+          </h1>
+
+          <p
+            className="mt-7 text-lg md:text-xl max-w-3xl"
+            style={{ color: 'var(--color-ink-mid)', lineHeight: 1.65 }}
+          >
+            {desc}
+          </p>
         </div>
-      </section>
+      </SectionFade>
 
-      {/* Content */}
-      <section className="pb-20 md:pb-28">
-        <div className="section-container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2 space-y-8">
-              {/* Details */}
-              {details.map((paragraph, i) => (
-                <ScrollReveal key={i} delay={i * 0.1}>
-                  <p className="text-base text-cream-200/65 leading-relaxed">{paragraph}</p>
-                </ScrollReveal>
-              ))}
+      {/* Body */}
+      <SectionFade>
+        <div className="section-container pb-24 md:pb-32">
+          <div
+            className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16"
+            style={{ borderTop: '1px solid var(--color-rule)' }}
+          >
+            {/* Long-form details */}
+            <div className="lg:col-span-8 pt-12">
+              <div className="space-y-7">
+                {details.map((paragraph, i) => (
+                  <p
+                    key={i}
+                    className={i === 0 ? 'text-lg drop-cap' : 'text-base md:text-[1.0625rem]'}
+                    style={{ color: 'var(--color-ink-body)', lineHeight: 1.75 }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
 
-              {/* CTA */}
-              <ScrollReveal delay={0.3}>
-                <div className="pt-6">
-                  <a href={`tel:${PHONE_NUMBER}`} className="btn-premium">
-                    <Phone size={18} />
-                    {t.common.bookConsultation}
-                  </a>
-                </div>
-              </ScrollReveal>
+              <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <a
+                  href={CALENDLY_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-ink"
+                >
+                  {isRTL ? 'קביעת פגישת ייעוץ' : 'Book Consultation'}
+                </a>
+                <a
+                  href={PHONE_TEL}
+                  className="link-arrow"
+                  dir="ltr"
+                >
+                  {PHONE_NUMBER}
+                  <Arrow size={14} />
+                </a>
+              </div>
             </div>
 
             {/* Benefits sidebar */}
-            <div>
-              <ScrollReveal>
-                <div className="premium-card">
-                  <h3 className="text-lg font-bold text-cream-50 mb-4" style={{ fontFamily: 'var(--font-frank)' }}>
-                    {isRTL ? 'יתרונות עיקריים' : 'Key Benefits'}
-                  </h3>
-                  <ul className="space-y-3">
-                    {benefits.map((benefit, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div
-                          className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold"
-                          style={{ backgroundColor: 'rgba(198,169,80,0.15)', color: 'var(--color-primary-400)' }}
-                        >
-                          {i + 1}
-                        </div>
-                        <span className="text-sm text-cream-200/65">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </ScrollReveal>
-            </div>
+            <aside
+              className="lg:col-span-4 pt-12"
+              style={{ borderInlineStart: '1px solid var(--color-rule)' }}
+            >
+              <div className="ps-0 lg:ps-12">
+                <h3
+                  className="text-xs tracking-[0.22em] uppercase mb-6"
+                  style={{
+                    color: 'var(--color-ink-mid)',
+                    fontWeight: 600,
+                  }}
+                >
+                  {isRTL ? 'יתרונות עיקריים' : 'Key Benefits'}
+                </h3>
+                <ul style={{ borderTop: '1px solid var(--color-rule)' }}>
+                  {benefits.map((benefit, i) => (
+                    <li
+                      key={i}
+                      className="flex items-baseline gap-4 py-4"
+                      style={{ borderBottom: '1px solid var(--color-rule)' }}
+                    >
+                      <span
+                        className="text-xs tracking-wider shrink-0"
+                        style={{
+                          fontFamily: 'var(--font-frank)',
+                          color: 'var(--color-accent)',
+                        }}
+                      >
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span
+                        className="text-sm"
+                        style={{
+                          color: 'var(--color-ink-body)',
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {benefit}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
           </div>
         </div>
-      </section>
+      </SectionFade>
     </PageWrapper>
   )
 }

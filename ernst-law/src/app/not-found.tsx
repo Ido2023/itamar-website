@@ -8,49 +8,57 @@ export default function NotFound() {
   return (
     <>
       <Header />
-      <main className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Background */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0F1923 50%, #16213E 100%)' }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at center, rgba(200,169,110,0.05) 0%, transparent 70%)',
-          }}
-        />
-
-        <div className="section-container relative z-10 text-center py-24">
-          <div className="gold-divider mx-auto mb-6" />
-          <p
-            className="text-8xl font-bold mb-4"
-            style={{
-              fontFamily: 'var(--font-frank)',
-              background: 'linear-gradient(135deg, #C8A96E 0%, #D4BC8A 50%, #A8884E 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            404
-          </p>
-          <h1
-            className="text-3xl sm:text-4xl font-bold text-cream-50 mb-4"
-            style={{ fontFamily: 'var(--font-frank)' }}
-          >
-            הדף לא נמצא
-          </h1>
-          <p className="text-lg text-cream-200/60 mb-10 max-w-md mx-auto">
-            הדף שחיפשתם אינו קיים. ייתכן שהכתובת שגויה או שהדף הועבר.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/" className="btn-premium">
-              חזרה לדף הבית
-            </Link>
-            <Link href="/contact" className="btn-outline">
-              צור קשר
-            </Link>
+      <main
+        className="min-h-screen flex items-center"
+        style={{ backgroundColor: 'var(--color-paper)' }}
+      >
+        <div className="section-container py-32 md:py-44">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+            <div className="lg:col-span-6">
+              <p
+                className="font-bold tracking-tight"
+                style={{
+                  fontFamily: 'var(--font-frank)',
+                  color: 'var(--color-ink-strong)',
+                  fontSize: 'clamp(7rem, 18vw, 14rem)',
+                  lineHeight: 0.85,
+                  letterSpacing: '-0.04em',
+                }}
+              >
+                404
+              </p>
+            </div>
+            <div className="lg:col-span-6">
+              <span className="eyebrow">
+                הדף לא נמצא
+              </span>
+              <h1
+                className="mt-7 font-bold tracking-tight"
+                style={{
+                  fontFamily: 'var(--font-frank)',
+                  color: 'var(--color-ink)',
+                  fontSize: 'clamp(2rem, 4vw, 3rem)',
+                  lineHeight: 1.1,
+                }}
+              >
+                הכתובת שחיפשתם<br />אינה קיימת.
+              </h1>
+              <p
+                className="mt-5 text-base md:text-lg max-w-md"
+                style={{ color: 'var(--color-ink-mid)', lineHeight: 1.7 }}
+              >
+                ייתכן שהקישור שגוי או שהדף הוסר. אפשר לחזור לדף הבית או ליצור איתנו קשר.
+              </p>
+              <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Link href="/" className="btn-ink">
+                  חזרה לדף הבית
+                </Link>
+                <Link href="/contact" className="link-arrow">
+                  צרו קשר
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </main>

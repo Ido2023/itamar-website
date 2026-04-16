@@ -7,8 +7,8 @@ export default function RealEstateTaxPage() {
   return (
     <PracticeAreaDetail
       icon={Building}
-      titleHe='מיסוי מקרקעין ונדל"ן'
-      titleEn="Real Estate Taxation"
+      titleHe='מיסוי מקרקעין ועסקאות מכר נדל"ן'
+      titleEn="Real Estate Taxation & Sale Transactions"
       descHe="ייעוץ מקצועי בהעברת נכסי מקרקעין, תכנון מס אופטימלי ברכישה, מכירה והעברת דירות."
       descEn="Professional guidance on real estate asset transfers, optimal tax planning for purchase, sale, and apartment transfers."
       detailsHe={[

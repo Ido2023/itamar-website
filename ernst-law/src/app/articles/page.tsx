@@ -2,65 +2,114 @@
 
 import PageWrapper from '@/components/layout/PageWrapper'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import ScrollReveal from '@/components/ui/ScrollReveal'
-import { BookOpen, ArrowLeft, ArrowRight } from 'lucide-react'
+import SectionFade from '@/components/ui/SectionFade'
+import Link from 'next/link'
+import { ARTICLES, CATEGORY_LABELS_HE } from '@/lib/articles'
 
 export default function ArticlesPage() {
   const { t, isRTL } = useLanguage()
-  const Arrow = isRTL ? ArrowLeft : ArrowRight
 
   return (
     <PageWrapper>
-      <section className="py-16 md:py-24 relative">
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, rgba(198,169,80,0.05) 0%, transparent 50%)' }}
-        />
-        <div className="section-container relative z-10">
-          <ScrollReveal>
-            <div className="gold-divider mb-4" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-cream-50 mb-4"
-                style={{ fontFamily: 'var(--font-frank)' }}>
-              {t.articles.sectionTitle}
-            </h1>
-            <p className="text-lg text-cream-200/60 max-w-2xl">
-              {t.articles.sectionSubtitle}
-            </p>
-          </ScrollReveal>
+      <SectionFade>
+        <div className="section-container pt-16 md:pt-24 pb-10 md:pb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="section-num">·</span>
+            <span className="eyebrow">
+              {isRTL ? 'תוכן מקצועי' : 'Insights'}
+            </span>
+          </div>
+          <h1
+            className="font-bold tracking-tight max-w-3xl"
+            style={{
+              fontFamily: 'var(--font-frank)',
+              color: 'var(--color-ink)',
+              fontSize: 'clamp(2.5rem, 6vw, 4.75rem)',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            {t.articles.sectionTitle}.
+          </h1>
+          <p
+            className="mt-7 text-base md:text-lg max-w-2xl"
+            style={{ color: 'var(--color-ink-mid)', lineHeight: 1.7 }}
+          >
+            {t.articles.sectionSubtitle}
+          </p>
         </div>
-      </section>
+      </SectionFade>
 
-      <section className="pb-20 md:pb-28">
-        <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {t.articles.articlesList.map((article, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <article className="premium-card h-full flex flex-col group cursor-pointer">
-                  <div className="flex items-center gap-2 mb-3">
-                    <BookOpen size={16} style={{ color: 'var(--color-primary-400)' }} />
-                    <span className="text-xs text-cream-200/40 uppercase tracking-wider">
-                      {isRTL ? 'מאמר' : 'Article'}
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-bold text-cream-50 mb-3" style={{ fontFamily: 'var(--font-frank)' }}>
-                    {article.title}
-                  </h2>
-                  <p className="text-sm text-cream-200/55 leading-relaxed flex-1 mb-4">
-                    {article.excerpt}
-                  </p>
+      <SectionFade>
+        <div className="section-container pb-24 md:pb-32">
+          <div style={{ borderTop: '1px solid var(--color-rule)' }}>
+            {ARTICLES.map((article, i) => (
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="group grid grid-cols-12 gap-6 py-8 md:py-10 transition-colors"
+                style={{ borderBottom: '1px solid var(--color-rule)' }}
+              >
+                <div className="col-span-2 sm:col-span-1">
                   <span
-                    className="inline-flex items-center gap-1.5 text-sm font-medium"
-                    style={{ color: 'var(--color-primary-400)' }}
+                    className="text-sm tracking-wider"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink-soft)',
+                    }}
                   >
-                    {t.articles.readMore}
-                    <Arrow size={14} className="transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                    {String(i + 1).padStart(2, '0')}
                   </span>
-                </article>
-              </ScrollReveal>
+                </div>
+                <div className="col-span-10 sm:col-span-7">
+                  <span
+                    className="text-[0.7rem] tracking-[0.2em] uppercase"
+                    style={{ color: 'var(--color-accent)' }}
+                  >
+                    {CATEGORY_LABELS_HE[article.category]}
+                  </span>
+                  <h2
+                    className="mt-3 text-2xl md:text-3xl font-bold tracking-tight transition-colors group-hover:text-[color:var(--color-accent)]"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink)',
+                      lineHeight: 1.15,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {article.titleHe}
+                  </h2>
+                  <p
+                    className="mt-3 text-sm md:text-base"
+                    style={{
+                      color: 'var(--color-ink-mid)',
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {article.excerptHe}
+                  </p>
+                </div>
+                <div className="hidden sm:flex col-span-4 items-end justify-end">
+                  <div className="text-end">
+                    <div
+                      className="text-xs tracking-wider"
+                      style={{ color: 'var(--color-ink-soft)' }}
+                    >
+                      {article.readTimeMin} {isRTL ? 'דקות קריאה' : 'min read'}
+                    </div>
+                    <div
+                      className="mt-3 inline-flex items-center gap-2 text-xs tracking-wider transition-all duration-300 group-hover:gap-3"
+                      style={{ color: 'var(--color-ink) ' }}
+                    >
+                      {isRTL ? 'קרא ←' : 'Read →'}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
-      </section>
+      </SectionFade>
     </PageWrapper>
   )
 }

@@ -3,114 +3,119 @@
 import { useState } from 'react'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { VIDEOS } from '@/lib/constants'
-import { Play } from 'lucide-react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import SectionFade from '@/components/ui/SectionFade'
 import VideoEmbed from '@/components/ui/VideoEmbed'
 
 export default function VideoShowcase() {
-  const { t, lang, isRTL } = useLanguage()
+  const { lang, isRTL } = useLanguage()
   const [activeVideo, setActiveVideo] = useState(VIDEOS[0].id)
   const activeTitle = VIDEOS.find(v => v.id === activeVideo)
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
-    <section className="py-28 md:py-36 relative overflow-hidden" ref={ref}>
-      <div className="section-container relative z-10">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16 md:mb-20">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 mb-4"
-            >
-              <div className="h-px w-12" style={{ background: 'var(--color-primary-400)' }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: 'var(--color-primary-400)' }}>
-                {isRTL ? 'סרטונים' : 'Videos'}
+    <SectionFade
+      id="videos"
+      style={{ backgroundColor: 'var(--color-paper-raised)' }}
+      yOffset={32}
+    >
+      <div style={{ borderTop: '1px solid var(--color-rule)' }} />
+
+      <div className="section-container py-24 md:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+          <div className="lg:col-span-3">
+            <div className="flex items-center gap-4">
+              <span className="section-num">VI</span>
+              <span className="eyebrow">
+                {isRTL ? 'סרטוני מידע' : 'Videos'}
               </span>
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight"
-              style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}
-            >
-              {t.videos.sectionTitle}
-            </motion.h2>
+            </div>
           </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <Link href="/videos" className="btn-outline text-sm">
-              {isRTL ? 'לכל הסרטונים' : 'View All'}
-            </Link>
-          </motion.div>
+          <div className="lg:col-span-9">
+            <h2
+              className="font-bold tracking-tight max-w-2xl"
+              style={{
+                fontFamily: 'var(--font-frank)',
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.015em',
+              }}
+            >
+              {isRTL
+                ? 'סרטוני הסברה מקצועיים בנושאי ירושה, צוואות ומיסוי.'
+                : 'Professional explainer videos on inheritance, wills, and taxation.'}
+            </h2>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
+        <div
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
+          style={{ borderTop: '1px solid var(--color-rule)' }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            {/* Featured video */}
-            <div className="lg:col-span-2">
-              <div className="rounded-2xl overflow-hidden" style={{
-                border: '1px solid rgba(198,169,80,0.1)',
-                boxShadow: '0 20px 60px -15px rgba(0,0,0,0.5)',
-              }}>
-                <VideoEmbed
-                  videoId={activeVideo}
-                  title={activeTitle ? (lang === 'he' ? activeTitle.titleHe : activeTitle.titleEn) : ''}
-                />
-              </div>
-              <p className="mt-4 text-sm" style={{ color: 'rgba(240,236,229,0.45)', fontFamily: 'var(--font-frank)' }}>
-                {activeTitle && (lang === 'he' ? activeTitle.titleHe : activeTitle.titleEn)}
-              </p>
+          <div className="lg:col-span-8 pt-8">
+            <div
+              className="overflow-hidden"
+              style={{ border: '1px solid var(--color-rule-strong)' }}
+            >
+              <VideoEmbed
+                videoId={activeVideo}
+                title={activeTitle ? (lang === 'he' ? activeTitle.titleHe : activeTitle.titleEn) : ''}
+              />
             </div>
+            <p
+              className="mt-4 text-sm tracking-wide"
+              style={{
+                color: 'var(--color-ink-mid)',
+                fontFamily: 'var(--font-frank)',
+              }}
+            >
+              {activeTitle && (lang === 'he' ? activeTitle.titleHe : activeTitle.titleEn)}
+            </p>
+          </div>
 
-            {/* Video list */}
-            <div className="flex flex-col gap-2.5">
-              {VIDEOS.map((video, i) => (
+          <div
+            className="lg:col-span-4 flex flex-col"
+            style={{ borderTop: '1px solid var(--color-rule)' }}
+          >
+            {VIDEOS.map((video, i) => {
+              const active = video.id === activeVideo
+              return (
                 <button
                   key={video.id}
                   onClick={() => setActiveVideo(video.id)}
-                  className="flex items-center gap-3 p-3.5 rounded-xl text-start transition-all duration-300 cursor-pointer group"
+                  className="group text-start py-5 transition-colors"
                   style={{
-                    background: video.id === activeVideo
-                      ? 'linear-gradient(145deg, rgba(198,169,80,0.08), rgba(198,169,80,0.03))'
-                      : 'transparent',
-                    border: `1px solid ${video.id === activeVideo ? 'rgba(198,169,80,0.2)' : 'rgba(198,169,80,0.05)'}`,
+                    borderBottom: '1px solid var(--color-rule)',
                   }}
                 >
-                  <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300" style={{
-                    background: video.id === activeVideo ? 'rgba(198,169,80,0.15)' : 'rgba(198,169,80,0.05)',
-                    border: '1px solid rgba(198,169,80,0.1)',
-                  }}>
-                    <Play size={14} style={{ color: 'var(--color-primary-400)' }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-[10px] tracking-wider block mb-0.5" style={{ color: 'rgba(198,169,80,0.4)' }}>
+                  <div className="flex items-baseline gap-4">
+                    <span
+                      className="text-xs tracking-wider shrink-0"
+                      style={{
+                        fontFamily: 'var(--font-frank)',
+                        color: active
+                          ? 'var(--color-accent)'
+                          : 'var(--color-ink-soft)',
+                      }}
+                    >
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="text-sm line-clamp-1 block" style={{
-                      color: video.id === activeVideo ? 'rgba(240,236,229,0.8)' : 'rgba(240,236,229,0.45)',
-                    }}>
+                    <span
+                      className="text-sm leading-snug transition-colors"
+                      style={{
+                        color: active ? 'var(--color-ink)' : 'var(--color-ink-mid)',
+                        fontWeight: active ? 600 : 400,
+                        fontFamily: 'var(--font-frank)',
+                      }}
+                    >
                       {lang === 'he' ? video.titleHe : video.titleEn}
                     </span>
                   </div>
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </SectionFade>
   )
 }

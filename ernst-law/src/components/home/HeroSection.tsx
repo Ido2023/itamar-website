@@ -1,313 +1,204 @@
 'use client'
 
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import { motion } from 'framer-motion'
-import { Calendar, ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react'
-import Link from 'next/link'
+import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
-import { CALENDLY_LINK, WHATSAPP_LINK } from '@/lib/constants'
+import Link from 'next/link'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { CALENDLY_LINK } from '@/lib/constants'
 
 export default function HeroSection() {
   const { t, isRTL } = useLanguage()
   const Arrow = isRTL ? ArrowLeft : ArrowRight
+  const prefersReducedMotion = useReducedMotion()
+
+  const fade = (delay = 0) => ({
+    initial: prefersReducedMotion ? {} : { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] as const },
+  })
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Deep gradient base */}
-      <div
-        className="absolute inset-0"
-        style={{ background: 'linear-gradient(160deg, #050510 0%, #0a0f1e 30%, #0c1628 60%, #0a1020 100%)' }}
-      />
+    <section
+      className="relative pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden"
+      style={{ backgroundColor: 'var(--color-paper)' }}
+    >
+      <div className="section-container">
+        {/* Top establishing line */}
+        <motion.div
+          {...fade(0)}
+          className="flex items-center justify-between mb-12 md:mb-20"
+        >
+          <span
+            className="text-xs tracking-[0.32em] uppercase"
+            style={{
+              color: 'var(--color-ink-mid)',
+              fontFamily: 'var(--font-heebo)',
+            }}
+          >
+            Est. 1979
+          </span>
+          <div className="flex-1 mx-6 h-px" style={{ background: 'var(--color-rule-strong)' }} />
+          <span
+            className="text-xs tracking-[0.18em]"
+            style={{
+              color: 'var(--color-ink-mid)',
+              fontFamily: 'var(--font-heebo)',
+            }}
+          >
+            {isRTL ? 'ירושלים  ·  עין צורים  ·  רמת גן' : 'Jerusalem  ·  Ein Tzurim  ·  Ramat Gan'}
+          </span>
+        </motion.div>
 
-      {/* Animated mesh gradient blobs */}
-      <motion.div
-        animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute pointer-events-none"
-        style={{
-          top: '-10%',
-          right: '-5%',
-          width: '700px',
-          height: '700px',
-          background: 'radial-gradient(circle, rgba(198,169,80,0.07) 0%, transparent 60%)',
-          filter: 'blur(60px)',
-        }}
-      />
-      <motion.div
-        animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-        className="absolute pointer-events-none"
-        style={{
-          bottom: '-15%',
-          left: '-10%',
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(15,52,96,0.4) 0%, transparent 60%)',
-          filter: 'blur(80px)',
-        }}
-      />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-end">
 
-      {/* Grid pattern overlay */}
-      <div className="grid-pattern" />
-
-      {/* Horizontal accent lines */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{
-        background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.6), rgba(198,169,80,0.8), rgba(198,169,80,0.6), transparent)'
-      }} />
-      <div className="absolute top-[1px] left-0 right-0 h-px" style={{
-        background: 'linear-gradient(90deg, transparent 20%, rgba(198,169,80,0.15) 50%, transparent 80%)',
-        filter: 'blur(4px)',
-      }} />
-
-      {/* Geometric floating elements */}
-      <motion.div
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-        className="absolute hidden lg:block pointer-events-none"
-        style={{ top: '15%', [isRTL ? 'left' : 'right']: '8%' }}
-      >
-        <div className="w-32 h-32" style={{
-          border: '1px solid rgba(198,169,80,0.08)',
-          borderRadius: '1.5rem',
-        }} />
-      </motion.div>
-      <motion.div
-        animate={{ rotate: [0, -360] }}
-        transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-        className="absolute hidden lg:block pointer-events-none"
-        style={{ bottom: '20%', [isRTL ? 'right' : 'left']: '5%' }}
-      >
-        <div className="w-20 h-20 rounded-full" style={{
-          border: '1px solid rgba(198,169,80,0.06)',
-        }} />
-      </motion.div>
-
-      {/* Diagonal accent lines */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden lg:block">
-        <div className="absolute" style={{
-          top: '10%',
-          right: '15%',
-          width: '300px',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.12), transparent)',
-          transform: 'rotate(-35deg)',
-        }} />
-        <div className="absolute" style={{
-          bottom: '25%',
-          left: '10%',
-          width: '200px',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(198,169,80,0.08), transparent)',
-          transform: 'rotate(25deg)',
-        }} />
-      </div>
-
-      {/* Main content */}
-      <div className="section-container relative z-10 pt-28 pb-16 md:pt-36 md:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Portrait — appears FIRST on mobile (top), order swap on desktop */}
+          <motion.div
+            {...fade(0.05)}
+            className={`lg:col-span-5 order-1 ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}
+          >
+            <figure className="relative">
+              <div
+                className="relative overflow-hidden"
+                style={{
+                  aspectRatio: '4 / 5',
+                  border: '1px solid var(--color-rule-strong)',
+                  backgroundColor: 'var(--color-paper-warm)',
+                }}
+              >
+                <Image
+                  src="/images/itamar-hero.jpeg"
+                  alt={isRTL ? 'עו"ד איתמר ארנסט' : 'Adv. Itamar Ernst'}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <figcaption
+                className="mt-3 flex items-baseline justify-between text-xs tracking-wider"
+                style={{
+                  color: 'var(--color-ink-mid)',
+                  fontFamily: 'var(--font-heebo)',
+                }}
+              >
+                <span>
+                  {isRTL ? 'עו״ד איתמר ארנסט · מנכ״ל המשרד' : 'Adv. Itamar Ernst · Managing Partner'}
+                </span>
+                <span style={{ color: 'var(--color-accent)' }}>I</span>
+              </figcaption>
+            </figure>
+          </motion.div>
 
           {/* Text column */}
-          <div className={isRTL ? 'lg:order-1' : 'lg:order-2'}>
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8"
+          <div className={`lg:col-span-7 order-2 ${isRTL ? 'lg:order-1' : 'lg:order-2'}`}>
+            <motion.h1
+              {...fade(0.1)}
+              className="font-bold tracking-tight"
               style={{
-                background: 'linear-gradient(135deg, rgba(198,169,80,0.08), rgba(198,169,80,0.03))',
-                border: '1px solid rgba(198,169,80,0.2)',
+                fontFamily: 'var(--font-frank)',
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(2.6rem, 7vw, 5.5rem)',
+                lineHeight: '0.98',
+                letterSpacing: '-0.02em',
               }}
             >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping" style={{ backgroundColor: 'var(--color-primary-400)' }} />
-                <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--color-primary-400)' }} />
-              </span>
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: 'var(--color-primary-300)' }}>
-                {t.hero.badge}
-              </span>
-            </motion.div>
-
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-bold leading-[1.02] mb-5"
-              style={{ fontFamily: 'var(--font-frank)', fontSize: 'clamp(2.8rem, 5.5vw, 5rem)' }}
-            >
-              <span style={{ color: '#F0ECE5' }}>{t.hero.title}</span>
-              <br />
-              <span className="text-gold-gradient">
-                {t.hero.titleHighlight}
-              </span>
+              {isRTL ? (
+                <>
+                  ליווי משפטי
+                  <br />
+                  <span style={{ fontWeight: 400, fontStyle: 'italic' }}>
+                    להעברה
+                  </span>{' '}
+                  בין-דורית
+                  <br />
+                  של נכסים.
+                </>
+              ) : (
+                <>
+                  Legal counsel
+                  <br />
+                  for the <span style={{ fontWeight: 400, fontStyle: 'italic' }}>
+                    intergenerational
+                  </span>
+                  <br />
+                  transfer of assets.
+                </>
+              )}
             </motion.h1>
 
-            {/* Subtitle */}
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl sm:text-2xl mb-3 font-medium"
-              style={{ fontFamily: 'var(--font-frank)', color: 'rgba(212,188,138,0.85)' }}
+              {...fade(0.2)}
+              className="mt-8 text-base md:text-lg max-w-xl"
+              style={{
+                color: 'var(--color-ink-mid)',
+                lineHeight: 1.7,
+              }}
             >
-              {t.hero.subtitle}
+              {isRTL
+                ? 'משרד בוטיק שמלווה משפחות בתכנון ירושה, מיסוי מקרקעין, ייפוי כוח מתמשך והסכמי ממון. השקעה אחת שמונעת סכסוכים והתדיינות מיותרת.'
+                : 'A boutique firm guiding families through inheritance planning, real-estate taxation, continuing power of attorney, and prenuptial agreements — a single investment that prevents disputes and unnecessary litigation.'}
             </motion.p>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-base max-w-lg mb-10 leading-relaxed"
-              style={{ color: 'rgba(240,236,229,0.55)' }}
-            >
-              {t.hero.description}
-            </motion.p>
-
-            {/* CTA Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12"
+              {...fade(0.3)}
+              className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
             >
               <a
                 href={CALENDLY_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-premium text-base sm:text-lg"
+                className="btn-ink"
               >
-                <Calendar size={20} />
-                {t.hero.cta}
+                {isRTL ? 'קביעת פגישת ייעוץ' : 'Book a Consultation'}
               </a>
-              <Link href="/practice-areas" className="btn-outline text-base sm:text-lg">
-                {t.hero.ctaSecondary}
-                <Arrow size={18} />
+              <Link href="/practice-areas" className="link-arrow">
+                {isRTL ? 'תחומי ההתמחות' : 'Practice Areas'}
+                <Arrow size={14} />
               </Link>
             </motion.div>
 
-            {/* Bottom info row */}
+            {/* Editorial small-text row */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.65 }}
-              className="flex flex-wrap items-center gap-6"
+              {...fade(0.4)}
+              className="mt-14 grid grid-cols-3 max-w-md"
+              style={{ borderTop: '1px solid var(--color-rule)' }}
             >
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
-                  background: 'rgba(198,169,80,0.06)',
-                  border: '1px solid rgba(198,169,80,0.12)',
-                }}>
-                  <span className="text-sm font-bold" style={{ color: 'var(--color-primary-400)' }}>+45</span>
-                  <span className="text-xs" style={{ color: 'rgba(198,169,80,0.6)' }}>{isRTL ? 'שנות ניסיון' : 'Years'}</span>
+              {[
+                { num: '45+', label: isRTL ? 'שנות ניסיון' : 'Years' },
+                { num: '1,000+', label: isRTL ? 'משפחות' : 'Families' },
+                { num: '5.0', label: isRTL ? 'דירוג Google' : 'Rating' },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="pt-5"
+                  style={{
+                    borderInlineStart: i > 0 ? '1px solid var(--color-rule)' : 'none',
+                    paddingInlineStart: i > 0 ? '1.25rem' : 0,
+                  }}
+                >
+                  <div
+                    className="text-2xl md:text-3xl font-bold"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink)',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {item.num}
+                  </div>
+                  <div
+                    className="mt-1 text-[0.7rem] tracking-wider"
+                    style={{ color: 'var(--color-ink-mid)' }}
+                  >
+                    {item.label}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
-                  background: 'rgba(198,169,80,0.06)',
-                  border: '1px solid rgba(198,169,80,0.12)',
-                }}>
-                  <span className="text-sm font-bold" style={{ color: 'var(--color-primary-400)' }}>+1,000</span>
-                  <span className="text-xs" style={{ color: 'rgba(198,169,80,0.6)' }}>{isRTL ? 'משפחות' : 'Families'}</span>
-                </div>
-              </div>
-
-              <a
-                href={WHATSAPP_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 hover:opacity-80"
-                style={{ color: '#4ade80' }}
-              >
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.359 0-4.554-.674-6.418-1.837l-.447-.27-2.956.991.991-2.956-.27-.447A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
-                </svg>
-                WhatsApp
-              </a>
+              ))}
             </motion.div>
           </div>
-
-          {/* Portrait column */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, x: isRTL ? -40 : 40 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className={`relative hidden lg:flex justify-center ${isRTL ? 'lg:order-2' : 'lg:order-1'}`}
-          >
-            {/* Glow ring */}
-            <div className="absolute inset-0" style={{
-              background: 'radial-gradient(ellipse at center, rgba(198,169,80,0.12) 0%, transparent 70%)',
-              transform: 'scale(1.15)',
-              filter: 'blur(20px)',
-            }} />
-
-            {/* Geometric frame lines */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 pointer-events-none" style={{
-              borderTop: '1px solid rgba(198,169,80,0.3)',
-              borderRight: '1px solid rgba(198,169,80,0.3)',
-              borderTopRightRadius: '1.5rem',
-            }} />
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 pointer-events-none" style={{
-              borderBottom: '1px solid rgba(198,169,80,0.3)',
-              borderLeft: '1px solid rgba(198,169,80,0.3)',
-              borderBottomLeftRadius: '1.5rem',
-            }} />
-
-            {/* Image container */}
-            <div className="relative overflow-hidden" style={{
-              borderRadius: '1.5rem',
-              border: '1px solid rgba(198,169,80,0.15)',
-              maxWidth: '440px',
-              width: '100%',
-              boxShadow: '0 30px 80px -20px rgba(0,0,0,0.6)',
-            }}>
-              <Image
-                src="/images/IMG_2089.png"
-                alt="עו״ד איתמר ארנסט"
-                width={440}
-                height={540}
-                className="w-full h-auto object-cover"
-                style={{ display: 'block' }}
-                priority
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-40" style={{
-                background: 'linear-gradient(to top, rgba(5,5,16,0.9) 0%, transparent 100%)',
-              }} />
-              <div className="absolute bottom-6 left-0 right-0 flex justify-center">
-                <div className="px-6 py-3 rounded-xl text-center" style={{
-                  background: 'rgba(5,5,16,0.85)',
-                  backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(198,169,80,0.2)',
-                }}>
-                  <p className="text-base font-bold" style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}>
-                    עו&quot;ד איתמר ארנסט
-                  </p>
-                  <p className="text-xs mt-0.5 tracking-wider" style={{ color: 'rgba(198,169,80,0.7)' }}>
-                    משרד מוביל בתחומו
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2"
-      >
-        <div className="w-[1px] h-8" style={{
-          background: 'linear-gradient(to bottom, rgba(198,169,80,0.4), transparent)',
-        }} />
-        <ChevronDown size={14} style={{ color: 'rgba(198,169,80,0.4)' }} />
-      </motion.div>
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{
-        background: 'linear-gradient(to top, var(--color-dark-950), transparent)',
-      }} />
     </section>
   )
 }

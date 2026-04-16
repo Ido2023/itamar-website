@@ -3,100 +3,165 @@
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import SectionFade from '@/components/ui/SectionFade'
+import { ARTICLES } from '@/lib/articles'
 
 export default function ArticlesPreview() {
   const { t, isRTL } = useLanguage()
   const Arrow = isRTL ? ArrowLeft : ArrowRight
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
-  const articles = t.articles.articlesList
+  const featured = ARTICLES.slice(0, 4)
+  const [first, ...rest] = featured
 
   return (
-    <section className="relative overflow-hidden" ref={ref} style={{ background: '#08080f' }}>
+    <SectionFade
+      id="articles"
+      style={{ backgroundColor: 'var(--color-paper-raised)' }}
+      className="relative"
+      yOffset={32}
+    >
+      <div style={{ borderTop: '1px solid var(--color-rule)' }} />
+
       <div className="section-container py-24 md:py-32">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-10" style={{ background: 'var(--color-primary-400)' }} />
-              <span className="text-xs font-semibold tracking-[0.25em] uppercase" style={{ color: 'var(--color-primary-400)' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 md:mb-20">
+          <div className="lg:col-span-3">
+            <div className="flex items-center gap-4">
+              <span className="section-num">II</span>
+              <span className="eyebrow">
                 {isRTL ? 'תוכן מקצועי' : 'Insights'}
               </span>
             </div>
+          </div>
+          <div className="lg:col-span-9 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight"
-              style={{ fontFamily: 'var(--font-frank)', color: '#F0ECE5' }}
+              className="font-bold tracking-tight"
+              style={{
+                fontFamily: 'var(--font-frank)',
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.015em',
+              }}
             >
-              {t.articles.sectionTitle}
+              {isRTL ? 'מאמרים מקצועיים.' : 'Articles & Insights.'}
             </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Link href="/articles" className="btn-outline text-sm">
+            <Link
+              href="/articles"
+              className="link-arrow shrink-0"
+            >
               {isRTL ? 'לכל המאמרים' : 'View All'}
               <Arrow size={14} />
             </Link>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Clean list of articles — no cards */}
-        <div>
-          {articles.map((article, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
+        {first && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* Featured article */}
+            <Link
+              href={`/articles/${first.slug}`}
+              className="lg:col-span-7 group block"
+              style={{
+                borderTop: '1px solid var(--color-rule)',
+                paddingTop: '2.5rem',
+              }}
             >
               <div
-                className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-8 transition-all duration-300 cursor-pointer"
+                className="flex items-center gap-4 text-xs tracking-wider mb-5"
+                style={{ color: 'var(--color-ink-mid)' }}
+              >
+                <span style={{ color: 'var(--color-accent)' }}>
+                  {isRTL ? 'מאמר נבחר' : 'Featured'}
+                </span>
+                <span aria-hidden>·</span>
+                <span>
+                  {first.readTimeMin} {isRTL ? 'דקות קריאה' : 'min read'}
+                </span>
+              </div>
+              <h3
+                className="font-bold tracking-tight transition-colors duration-300 group-hover:text-[color:var(--color-accent)]"
                 style={{
-                  borderBottom: '1px solid rgba(198,169,80,0.06)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.paddingRight = isRTL ? '' : '1rem'
-                  e.currentTarget.style.paddingLeft = isRTL ? '1rem' : ''
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.paddingRight = ''
-                  e.currentTarget.style.paddingLeft = ''
+                  fontFamily: 'var(--font-frank)',
+                  color: 'var(--color-ink)',
+                  fontSize: 'clamp(1.75rem, 3.5vw, 2.6rem)',
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.01em',
                 }}
               >
-                <span className="text-sm font-bold shrink-0 md:w-12 md:pt-1" style={{
-                  fontFamily: 'var(--font-frank)',
-                  color: 'rgba(198,169,80,0.2)',
-                }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary-300 transition-colors duration-300" style={{
-                    fontFamily: 'var(--font-frank)',
-                    color: '#F0ECE5',
-                  }}>
-                    {article.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed max-w-2xl" style={{ color: 'rgba(240,236,229,0.35)' }}>
-                    {article.excerpt}
-                  </p>
-                </div>
-                <Arrow
-                  size={18}
-                  className="shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
-                  style={{ color: 'var(--color-primary-400)' }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                {first.titleHe}
+              </h3>
+              <p
+                className="mt-5 text-base md:text-lg"
+                style={{
+                  color: 'var(--color-ink-mid)',
+                  lineHeight: 1.7,
+                }}
+              >
+                {first.excerptHe}
+              </p>
+              <span
+                className="mt-7 inline-flex items-center gap-2 text-xs tracking-wider transition-all duration-300 group-hover:gap-3"
+                style={{ color: 'var(--color-accent)' }}
+              >
+                {isRTL ? 'המשך לקריאה' : 'Continue Reading'}
+                <Arrow size={12} />
+              </span>
+            </Link>
+
+            {/* Side list */}
+            <div
+              className="lg:col-span-5 flex flex-col"
+              style={{ borderTop: '1px solid var(--color-rule)' }}
+            >
+              {rest.map((article, i) => (
+                <Link
+                  key={article.slug}
+                  href={`/articles/${article.slug}`}
+                  className="group block py-7"
+                  style={{
+                    borderBottom: i < rest.length - 1
+                      ? '1px solid var(--color-rule)'
+                      : 'none',
+                  }}
+                >
+                  <div className="flex items-baseline gap-4">
+                    <span
+                      className="text-xs tracking-wider shrink-0"
+                      style={{
+                        fontFamily: 'var(--font-frank)',
+                        color: 'var(--color-ink-soft)',
+                      }}
+                    >
+                      {String(i + 2).padStart(2, '0')}
+                    </span>
+                    <div>
+                      <h4
+                        className="text-lg font-bold tracking-tight transition-colors duration-300 group-hover:text-[color:var(--color-accent)]"
+                        style={{
+                          fontFamily: 'var(--font-frank)',
+                          color: 'var(--color-ink)',
+                          lineHeight: 1.25,
+                        }}
+                      >
+                        {article.titleHe}
+                      </h4>
+                      <p
+                        className="mt-2 text-sm"
+                        style={{
+                          color: 'var(--color-ink-mid)',
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {article.excerptHe}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </section>
+    </SectionFade>
   )
 }

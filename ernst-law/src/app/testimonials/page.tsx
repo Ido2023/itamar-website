@@ -2,93 +2,146 @@
 
 import PageWrapper from '@/components/layout/PageWrapper'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
+import SectionFade from '@/components/ui/SectionFade'
 import { TESTIMONIALS, TESTIMONIAL_VIDEOS } from '@/lib/constants'
-import ScrollReveal from '@/components/ui/ScrollReveal'
 import VideoEmbed from '@/components/ui/VideoEmbed'
-import { Star, Quote } from 'lucide-react'
 
 export default function TestimonialsPage() {
-  const { t, lang } = useLanguage()
+  const { t, lang, isRTL } = useLanguage()
 
   return (
     <PageWrapper>
-      <section className="py-16 md:py-24 relative">
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(135deg, rgba(198,169,80,0.05) 0%, transparent 50%)' }}
-        />
-        <div className="section-container relative z-10">
-          <ScrollReveal>
-            <div className="gold-divider mb-4" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-cream-50 mb-4"
-                style={{ fontFamily: 'var(--font-frank)' }}>
-              {t.testimonials.sectionTitle}
-            </h1>
-            <p className="text-lg text-cream-200/60 max-w-2xl">
-              {t.testimonials.sectionSubtitle}
-            </p>
-          </ScrollReveal>
+      <SectionFade>
+        <div className="section-container pt-16 md:pt-24 pb-10 md:pb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="section-num">·</span>
+            <span className="eyebrow">
+              {isRTL ? 'המלצות' : 'Testimonials'}
+            </span>
+          </div>
+          <h1
+            className="font-bold tracking-tight max-w-3xl"
+            style={{
+              fontFamily: 'var(--font-frank)',
+              color: 'var(--color-ink)',
+              fontSize: 'clamp(2.5rem, 6vw, 4.75rem)',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            {t.testimonials.sectionTitle}.
+          </h1>
+          <p
+            className="mt-7 text-base md:text-lg max-w-2xl"
+            style={{ color: 'var(--color-ink-mid)', lineHeight: 1.7 }}
+          >
+            {t.testimonials.sectionSubtitle}
+          </p>
         </div>
-      </section>
+      </SectionFade>
 
-      {/* Written Testimonials */}
-      <section className="pb-16">
-        <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <SectionFade>
+        <div className="section-container pb-16 md:pb-24">
+          <div style={{ borderTop: '1px solid var(--color-rule)' }}>
             {TESTIMONIALS.map((testimonial, i) => (
-              <ScrollReveal key={i} delay={i * 0.08}>
-                <div className="premium-card h-full flex flex-col">
-                  <Quote size={28} className="mb-4" style={{ color: 'var(--color-primary-400)', opacity: 0.3 }} />
-                  <p className="text-base text-cream-200/70 leading-relaxed flex-1 mb-6">
-                    {lang === 'he' ? testimonial.textHe : testimonial.textEn}
-                  </p>
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }} className="pt-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-bold text-cream-50">
-                          {lang === 'he' ? testimonial.nameHe : testimonial.nameEn}
-                        </p>
-                        <p className="text-xs text-cream-200/40">{testimonial.date}</p>
-                      </div>
-                      <div className="flex gap-0.5">
-                        {Array.from({ length: testimonial.rating }).map((_, j) => (
-                          <Star key={j} size={16} fill="var(--color-primary-400)" style={{ color: 'var(--color-primary-400)' }} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+              <div
+                key={i}
+                className="grid grid-cols-12 gap-6 py-10 md:py-14"
+                style={{ borderBottom: '1px solid var(--color-rule)' }}
+              >
+                <div className="col-span-12 md:col-span-2">
+                  <span
+                    className="text-sm tracking-wider"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink-soft)',
+                    }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                 </div>
-              </ScrollReveal>
+                <blockquote className="col-span-12 md:col-span-10">
+                  <p
+                    className="font-medium tracking-tight"
+                    style={{
+                      fontFamily: 'var(--font-frank)',
+                      color: 'var(--color-ink)',
+                      fontSize: 'clamp(1.2rem, 2vw, 1.75rem)',
+                      lineHeight: 1.45,
+                      letterSpacing: '-0.005em',
+                      fontWeight: 400,
+                    }}
+                  >
+                    {isRTL ? '״' : '“'}
+                    {lang === 'he' ? testimonial.textHe : testimonial.textEn}
+                    {isRTL ? '״' : '”'}
+                  </p>
+                  <footer className="mt-6 flex items-center gap-3">
+                    <div
+                      className="h-px w-8"
+                      style={{ background: 'var(--color-accent)' }}
+                    />
+                    <cite
+                      className="not-italic text-sm font-bold tracking-tight"
+                      style={{
+                        color: 'var(--color-ink)',
+                        fontFamily: 'var(--font-frank)',
+                      }}
+                    >
+                      {lang === 'he' ? testimonial.nameHe : testimonial.nameEn}
+                    </cite>
+                    <span
+                      className="text-xs tracking-wider"
+                      style={{ color: 'var(--color-ink-soft)' }}
+                    >
+                      {testimonial.date}
+                    </span>
+                  </footer>
+                </blockquote>
+              </div>
             ))}
           </div>
         </div>
-      </section>
+      </SectionFade>
 
       {/* Video Testimonials */}
-      <section className="pb-20 md:pb-28">
-        <div className="section-container">
-          <ScrollReveal>
-            <h2 className="text-2xl font-bold text-cream-50 mb-8" style={{ fontFamily: 'var(--font-frank)' }}>
-              {lang === 'he' ? 'המלצות בווידאו' : 'Video Testimonials'}
-            </h2>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIAL_VIDEOS.map((video, i) => (
-              <ScrollReveal key={video.id} delay={i * 0.08}>
-                <div className="premium-card p-4">
+      <SectionFade
+        style={{ backgroundColor: 'var(--color-paper-warm)' }}
+      >
+        <div style={{ borderTop: '1px solid var(--color-rule-strong)' }} />
+        <div className="section-container py-20 md:py-28">
+          <div className="flex items-center gap-4 mb-10">
+            <span className="section-num">·</span>
+            <span className="eyebrow">
+              {isRTL ? 'המלצות בווידאו' : 'Video Testimonials'}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIAL_VIDEOS.map((video) => (
+              <div key={video.id}>
+                <div
+                  className="overflow-hidden"
+                  style={{ border: '1px solid var(--color-rule-strong)' }}
+                >
                   <VideoEmbed
                     videoId={video.id}
                     title={lang === 'he' ? video.nameHe : video.nameEn}
                   />
-                  <p className="mt-3 text-sm text-cream-200/60">
-                    {lang === 'he' ? video.nameHe : video.nameEn}
-                  </p>
                 </div>
-              </ScrollReveal>
+                <p
+                  className="mt-3 text-sm"
+                  style={{
+                    color: 'var(--color-ink-mid)',
+                    fontFamily: 'var(--font-frank)',
+                  }}
+                >
+                  {lang === 'he' ? video.nameHe : video.nameEn}
+                </p>
+              </div>
             ))}
           </div>
         </div>
-      </section>
+      </SectionFade>
     </PageWrapper>
   )
 }

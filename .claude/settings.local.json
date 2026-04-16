@@ -10,7 +10,14 @@
       "Bash(npx vercel build)",
       "Bash(npx vercel whoami)",
       "Bash(npx vercel --yes)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(node_modules/.bin/next build)",
+      "Bash(npx vercel login)",
+      "Bash(npx vercel --prod --yes)",
+      "WebFetch(domain:strat-agent.ai)",
+      "Bash(npx vercel ls)",
+      "Bash(npx vercel inspect ernst-ci54dy3ba-ido-2915s-projects.vercel.app)",
+      "WebFetch(domain:ernst-law.vercel.app)"
     ]
   }
 }
