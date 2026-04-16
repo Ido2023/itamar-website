@@ -95,7 +95,7 @@ export const PHONE_NUMBER = '052-6070779'
 export const PHONE_TEL = 'tel:+972526070779'
 export const EMAIL = 'ernstadv@gmail.com'
 export const WHATSAPP_LINK = 'https://wa.me/972526070779'
-export const CALENDLY_LINK = 'https://calendly.com/d/ctm3-wj6-vw8'
+export const CALENDLY_LINK = 'https://calendly.com/ernstadv/meet-with-me-11'
 export const SITE_URL = 'https://ernst-law.vercel.app'
 
 export const SOCIAL = {
