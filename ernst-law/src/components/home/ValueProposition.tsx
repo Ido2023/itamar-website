@@ -20,7 +20,7 @@ export default function ValueProposition() {
     >
       <div style={{ borderTop: '1px solid var(--color-rule)' }} />
 
-      <div className="section-container py-24 md:py-32">
+      <div className="section-container py-14 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
           {/* Left: section label + headline */}
           <div className="lg:col-span-5">

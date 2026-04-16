@@ -249,6 +249,18 @@ html, body {
     border-color: var(--color-ink);
   }
 
+  /* Hero portrait — different aspect ratio per breakpoint to suit the source image */
+  .hero-portrait {
+    aspect-ratio: 3 / 2;
+    max-height: 45vh;
+  }
+  @media (min-width: 1024px) {
+    .hero-portrait {
+      aspect-ratio: 4 / 5;
+      max-height: none;
+    }
+  }
+
   /* Drop cap — first letter in body opening */
   .drop-cap::first-letter {
     font-family: var(--font-frank);

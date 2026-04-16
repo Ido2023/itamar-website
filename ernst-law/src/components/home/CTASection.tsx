@@ -2,23 +2,34 @@
 
 import { useLanguage } from '@/lib/i18n/LanguageContext'
 import { PHONE_TEL, PHONE_NUMBER, WHATSAPP_LINK, CALENDLY_LINK } from '@/lib/constants'
-import SectionFade from '@/components/ui/SectionFade'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 
 export default function CTASection() {
   const { isRTL } = useLanguage()
+  const prefersReducedMotion = useReducedMotion()
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12 })
+
+  const initial = prefersReducedMotion ? {} : { opacity: 0, y: 24 }
+  const animate = inView ? { opacity: 1, y: 0 } : initial
 
   return (
-    <SectionFade
+    <section
       id="cta"
+      ref={ref}
       style={{ backgroundColor: 'var(--color-ink-strong)' }}
-      yOffset={32}
     >
-      <div className="section-container py-28 md:py-40">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+      <div className="section-container py-20 md:py-40">
+        <motion.div
+          initial={initial}
+          animate={animate}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:items-end"
+        >
           <div className="lg:col-span-8">
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-6 md:mb-8">
               <span
-                className="text-xs tracking-[0.22em] uppercase font-semibold"
+                className="text-[0.65rem] md:text-xs tracking-[0.22em] uppercase font-semibold"
                 style={{ color: '#A88B7C' }}
               >
                 {isRTL ? 'יצירת קשר' : 'Get in Touch'}
@@ -33,7 +44,7 @@ export default function CTASection() {
               style={{
                 fontFamily: 'var(--font-frank)',
                 color: 'var(--color-paper)',
-                fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                fontSize: 'clamp(2.2rem, 6vw, 4.5rem)',
                 lineHeight: 1,
                 letterSpacing: '-0.02em',
               }}
@@ -53,8 +64,8 @@ export default function CTASection() {
               )}
             </h2>
             <p
-              className="mt-7 text-base md:text-lg max-w-xl"
-              style={{ color: 'rgba(245,241,232,0.65)', lineHeight: 1.7 }}
+              className="mt-6 md:mt-7 text-base md:text-lg max-w-xl"
+              style={{ color: 'rgba(245,241,232,0.65)', lineHeight: 1.65 }}
             >
               {isRTL
                 ? 'תיאום שיחת ייעוץ ראשונית ללא התחייבות. השאירו פרטים — נחזור אליכם בתוך יום עסקים אחד.'
@@ -67,7 +78,7 @@ export default function CTASection() {
               href={CALENDLY_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-between gap-4 px-6 py-5 transition-colors"
+              className="inline-flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 transition-colors"
               style={{
                 backgroundColor: 'var(--color-paper)',
                 color: 'var(--color-ink)',
@@ -75,6 +86,7 @@ export default function CTASection() {
                 borderRadius: '2px',
                 fontFamily: 'var(--font-heebo)',
                 fontWeight: 500,
+                fontSize: '0.95rem',
               }}
             >
               <span>{isRTL ? 'קביעת פגישה אונליין' : 'Book Online'}</span>
@@ -89,13 +101,14 @@ export default function CTASection() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-between gap-4 px-6 py-5 transition-colors hover:bg-white/5"
+              className="inline-flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 transition-colors hover:bg-white/5"
               style={{
                 color: 'var(--color-paper)',
                 border: '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '2px',
                 fontFamily: 'var(--font-heebo)',
                 fontWeight: 500,
+                fontSize: '0.95rem',
               }}
             >
               <span>WhatsApp</span>
@@ -105,13 +118,14 @@ export default function CTASection() {
             </a>
             <a
               href={PHONE_TEL}
-              className="inline-flex items-center justify-between gap-4 px-6 py-5 transition-colors hover:bg-white/5"
+              className="inline-flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 transition-colors hover:bg-white/5"
               style={{
                 color: 'var(--color-paper)',
                 border: '1px solid rgba(255,255,255,0.12)',
                 borderRadius: '2px',
                 fontFamily: 'var(--font-heebo)',
                 fontWeight: 500,
+                fontSize: '0.95rem',
               }}
             >
               <span>{isRTL ? 'התקשרו עכשיו' : 'Call Now'}</span>
@@ -120,8 +134,8 @@ export default function CTASection() {
               </span>
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </SectionFade>
+    </section>
   )
 }

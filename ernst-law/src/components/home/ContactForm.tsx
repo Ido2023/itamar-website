@@ -64,7 +64,7 @@ export default function ContactForm() {
     >
       <div style={{ borderTop: '1px solid var(--color-rule)' }} />
 
-      <div className="section-container py-24 md:py-32">
+      <div className="section-container py-14 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14">
           <div className="lg:col-span-3">
             <div className="flex items-center gap-4">

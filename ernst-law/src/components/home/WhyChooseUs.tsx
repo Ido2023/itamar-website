@@ -20,7 +20,7 @@ export default function WhyChooseUs() {
     >
       <div style={{ borderTop: '1px solid var(--color-rule-strong)' }} />
 
-      <div className="section-container py-24 md:py-32">
+      <div className="section-container py-14 md:py-32">
         {/* Stats row */}
         <div
           className="grid grid-cols-1 sm:grid-cols-3"
@@ -62,7 +62,7 @@ export default function WhyChooseUs() {
         </div>
 
         {/* Section title */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-20 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 mt-12 md:mt-20 mb-8 md:mb-12">
           <div className="lg:col-span-3">
             <div className="flex items-center gap-4">
               <span className="section-num">IV</span>
